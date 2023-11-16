@@ -9,6 +9,10 @@ import { useNavigate } from "react-router-dom";
 export default function Home() {
   const navigate = useNavigate();
 
+  const onAccessButtonClick = useCallback(() => {
+    navigate("/files");
+  }, []);
+
   const onLoginButtonClick = useCallback(() => {
     navigate("/login");
   }, []);
@@ -19,7 +23,7 @@ export default function Home() {
         <ApplicationTitle>FTreel</ApplicationTitle>
         <ApplicationSubtitle>LEO TROUVE UN SLOGAN</ApplicationSubtitle>
         <Box marginTop={5}>
-          <Button variant="contained" style={{ zIndex: "1", width: "45%", marginRight: "5px" }}>
+          <Button variant="contained" onClick={onAccessButtonClick} style={{ zIndex: "1", width: "45%", marginRight: "5px" }}>
             Accéder
           </Button>
           <Button variant="outlined" onClick={onLoginButtonClick} style={{ zIndex: "1", width: "45%" }}>

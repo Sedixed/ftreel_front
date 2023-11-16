@@ -3,25 +3,35 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Home from "@page/home/Home";
 import Login from "@page/login/Login";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-import { HomeButtonLayout } from "layout/HomeButtonLayout/HomeButtonLayout";
+import { HomeButtonLayout } from "layout/ApplicationLayout/HomeButtonLayout";
+import Files from "@page/files/Files";
+import SidebarLayout from "layout/SidebarLayout/SidebarLayout";
 
 function App() {
   // Defining all the application routes
   const router = createBrowserRouter([
     {
+      path: "/",
+      element: <Home />
+    },
+    {
       element: <HomeButtonLayout />,
       children: [
-        {
-          path: "/",
-          element: <Home />
-        },
         {
           path: "/login",
           element: <Login />
         }
       ]
+    },
+    {
+      element: <SidebarLayout />,
+      children: [
+        {
+          path: "/files",
+          element: <Files />
+        }
+      ]
     }
-    
   ]);
 
   // Create the application theme

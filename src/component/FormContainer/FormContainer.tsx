@@ -38,7 +38,7 @@ export type FormContainerProps = {
 };
 
 /**
- * A form container that allows you to put your input inside of it. 
+ * A form container that stacks your elements inside of it. 
  */
 export default function FormContainer({ children, style, stackSpacing, method, action, onSubmit }: FormContainerProps) {
   return (

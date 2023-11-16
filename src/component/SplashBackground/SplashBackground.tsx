@@ -16,6 +16,9 @@ export type SplashBackgroundProps = {
   alt?: string;
 }
 
+/**
+ * Component containing a splash background with the specified image.
+ */
 export default function SplashBackground({ src, alt }: SplashBackgroundProps) {
     return (
       <SplashBackgroundContainer>
