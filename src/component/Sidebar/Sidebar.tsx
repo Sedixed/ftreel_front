@@ -1,4 +1,4 @@
-import { Drawer, IconButton, styled } from "@mui/material";
+import { Drawer, IconButton, styled, useTheme } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import { ReactNode, useState } from "react";
 
@@ -19,10 +19,18 @@ export type SidebarProps = {
  */
 export default function Sidebar({ width, children }: SidebarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const theme = useTheme();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   }
+
+  const drawerStyle = { 
+    boxSizing: 'border-box', 
+    width: width,
+    backgroundColor: theme.palette.primary.main,
+    color: "white",
+  };
 
   return (
     <>
@@ -39,7 +47,7 @@ export default function Sidebar({ width, children }: SidebarProps) {
         }}
         sx={{
           display: { xs: 'block', sm: 'none' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: width },
+          '& .MuiDrawer-paper': drawerStyle,
         }}
       >
         {children}
@@ -48,7 +56,10 @@ export default function Sidebar({ width, children }: SidebarProps) {
         variant="permanent"
         sx={{
           display: { xs: 'none', sm: 'block' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: width },
+          '& .MuiDrawer-paper': { 
+            ...drawerStyle, 
+            boxShadow: "2px 0px 10px 1px rgba(0,0,0,0.5)",
+          }
         }}
         open
       >

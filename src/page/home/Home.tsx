@@ -36,9 +36,10 @@ export default function Home() {
   );
 }
 
-const HomeWrapper = styled("div")(() => ({
+const HomeWrapper = styled("div")(({ theme }) => ({
   position: "relative",
   height: "100vh",
+  background: theme.palette.background.default
 }));
 
 const TitleContainer = styled("div")(() => ({

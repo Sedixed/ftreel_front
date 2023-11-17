@@ -6,6 +6,7 @@ import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { HomeButtonLayout } from "layout/ApplicationLayout/HomeButtonLayout";
 import Files from "@page/files/Files";
 import SidebarLayout from "layout/SidebarLayout/SidebarLayout";
+import Followed from "@page/followed/Followed";
 
 function App() {
   // Defining all the application routes
@@ -29,6 +30,10 @@ function App() {
         {
           path: "/files",
           element: <Files />
+        },
+        {
+          path: "/followed",
+          element: <Followed />
         }
       ]
     }
@@ -36,7 +41,8 @@ function App() {
 
   // Create the application theme
   const primaryColor = "#223A54"
-  const secondaryColor = "#FFF6FF"
+  const secondaryColor = "#F94F5A"
+  const backgroundColor = "#FFF6FF";
   const theme = createTheme({
     palette: {
       primary: {
@@ -46,13 +52,16 @@ function App() {
       secondary: {
         main: secondaryColor,
         light: secondaryColor
+      },
+      background: {
+        default: "#FFF6FF"
       }
     },
     components: {
       MuiCssBaseline: {
         styleOverrides: {
           body: {
-            backgroundColor: secondaryColor,
+            backgroundColor: backgroundColor,
           }
         }
       }
