@@ -2,6 +2,7 @@ import { Outlet, useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
 import { useTheme } from "@mui/material";
+import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
 
 /**
  * Layout adding a home button when the route isn't "/".
@@ -15,7 +16,7 @@ export function HomeButtonLayout() {
       {
         location.pathname !== "/" &&
         <Link 
-          to={"/"} 
+          to={ApplicationRoute.HOME} 
           style={{
             position: "absolute", 
             top: 20, 

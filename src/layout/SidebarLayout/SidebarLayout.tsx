@@ -6,6 +6,7 @@ import FolderIcon from '@mui/icons-material/Folder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { ReactNode, useMemo } from "react";
+import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
 
 /**
  * Describe an element to place inside the sidebar.
@@ -49,25 +50,25 @@ export default function SidebarLayout() {
   const elements: SidebarElement[] = useMemo(() => [
     {
       key: "home",
-      href: "/",
+      href: ApplicationRoute.HOME,
       icon: <HomeIcon />,
       label: "Accueil"
     },
     {
       key: "files",
-      href: "/files",
+      href: ApplicationRoute.FILES,
       icon: <FolderIcon />,
       label: "Fichiers"
     },
     {
       key: "followed",
-      href: "/followed",
+      href: ApplicationRoute.FOLLOWED,
       icon: <BookmarkIcon />,
       label: "Suivis",
     },
     {
       key: "logout",
-      href: "/logout",
+      href: ApplicationRoute.LOGOUT,
       icon: <LogoutIcon />,
       label: "Déconnexion",
       anchor: "bottom",
