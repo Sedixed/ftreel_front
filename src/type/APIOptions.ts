@@ -21,6 +21,8 @@ type APIOptions = {
    * The time (in ms) to set the retrieved data in a stale state (only works with useApi).
    */
   staleTime?: number,
+
+  credentialsPolicy: RequestCredentials | undefined,
 }
 
 export default APIOptions;

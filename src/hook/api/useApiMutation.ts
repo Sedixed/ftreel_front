@@ -32,7 +32,8 @@ export default function useApiMutation<T, U>(
       headers: {
         "Content-Type": options?.headers?.["Content-Type"] ?? "application/json",
         ...options?.headers,
-      }
+      },
+      credentials: options?.credentialsPolicy,
     }).then(res => {
       if (endpoint.responseType === null) {
         return null;
