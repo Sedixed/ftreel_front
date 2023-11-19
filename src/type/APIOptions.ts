@@ -22,6 +22,9 @@ type APIOptions = {
    */
   staleTime?: number,
 
+  /**
+   * Indicates if the credentials should be included in the request and retrieved from the response (default: included).
+   */
   credentialsPolicy: RequestCredentials | undefined,
 }
 
