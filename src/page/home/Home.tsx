@@ -1,4 +1,5 @@
 import SplashBackground from "@component/SplashBackground/SplashBackground";
+import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
 import { Box, Button, styled } from "@mui/material";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,11 +11,11 @@ export default function Home() {
   const navigate = useNavigate();
 
   const onAccessButtonClick = useCallback(() => {
-    navigate("/files");
+    navigate(ApplicationRoute.FILES);
   }, []);
 
   const onLoginButtonClick = useCallback(() => {
-    navigate("/login");
+    navigate(ApplicationRoute.LOGIN);
   }, []);
 
   return (

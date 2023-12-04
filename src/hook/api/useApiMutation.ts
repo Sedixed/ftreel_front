@@ -7,13 +7,15 @@ import APIOptions from "@type/APIOptions";
  * Send a mutation request (POST, PUT or DELETE) to the given endpoint.
  * 
  * @param  endpoint    The endpoint to send the request.
- * @param  requestData The data to send.
+ * @param  requestData The data to send, can be null if the request is sent later (sendRequest = false).
+ * @param  sendRequest Indicates if the request should be sent immediately.
  * @param  options     Some custom options about the request.
  * @return             A map containing multiple metrics about the sent request (isLoading, data...)
  */
 export default function useApiMutation<T, U>(
   endpoint: APIEndpoint<T, U>, 
-  requestData: T, 
+  requestData: T | null, 
+  sendRequest: Boolean = true,
   options: APIOptions | undefined = undefined
 ) {
   // Check that the given endpoint method is GET
@@ -23,15 +25,22 @@ export default function useApiMutation<T, U>(
 
   // Setup the mutation
   const queryClient = useQueryClient();
-  const mutation = useMutation(() => 
+  const mutation = useMutation((data) => 
     fetch(import.meta.env.VITE_API_HOST + endpoint.uri, {
       method: endpoint.method,
-      body: JSON.stringify(requestData),
+      body: JSON.stringify(requestData ?? data),
       headers: {
         "Content-Type": options?.headers?.["Content-Type"] ?? "application/json",
         ...options?.headers,
+      },
+      credentials: options?.credentialsPolicy ?? "include",
+    }).then(res => {
+      if (endpoint.responseType === null) {
+        return null;
       }
-    }).then(res => res.json()),
+      
+      return res.json();
+    }),
     {
       onSuccess: (data) => {
         if (options?.queryKey != undefined) {
@@ -46,7 +55,9 @@ export default function useApiMutation<T, U>(
 
   // Send the request
   useEffect(() => {
-    mutation.mutate(null)
+    if (sendRequest) {
+      mutation.mutate(null)
+    }
   }, [mutation.mutate]);
 
   // Returns the mutation result

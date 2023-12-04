@@ -1,6 +1,5 @@
 import { Class } from "@type/Class";
 import AuthenticationRequestDTO from "@dto/request/authentication/AuthenticationRequestDTO";
-import AuthenticationResponseDTO from "@dto/response/authentication/AuthenticationResponseDTO";
 import RegistrationRequestDTO from "@api/dto/request/authentication/RegistrationRequestDTO";
 import RegistrationResponseDTO from "@api/dto/response/authentication/RegistrationResponseDTO";
 
@@ -13,8 +12,8 @@ import RegistrationResponseDTO from "@api/dto/response/authentication/Registrati
  */
 export default class APIEndpoint<T, U> {
 
-  public static readonly LOGIN = new APIEndpoint("/login", "POST", AuthenticationRequestDTO, AuthenticationResponseDTO);
-  public static readonly REGISTER = new APIEndpoint("/register", "POST", RegistrationRequestDTO, RegistrationResponseDTO);
+  public static readonly LOGIN = new APIEndpoint("/Authentication/Login", "POST", AuthenticationRequestDTO, null);
+  public static readonly REGISTER = new APIEndpoint("/Authentication/Register", "POST", RegistrationRequestDTO, RegistrationResponseDTO);
 
   /**
    * @param uri          The endpoint's URI.

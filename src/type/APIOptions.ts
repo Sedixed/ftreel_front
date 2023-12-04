@@ -21,6 +21,11 @@ type APIOptions = {
    * The time (in ms) to set the retrieved data in a stale state (only works with useApi).
    */
   staleTime?: number,
+
+  /**
+   * Indicates if the credentials should be included in the request and retrieved from the response (default: included).
+   */
+  credentialsPolicy: RequestCredentials | undefined,
 }
 
 export default APIOptions;

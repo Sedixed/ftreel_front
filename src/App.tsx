@@ -7,19 +7,20 @@ import { HomeButtonLayout } from "layout/ApplicationLayout/HomeButtonLayout";
 import Files from "@page/files/Files";
 import SidebarLayout from "layout/SidebarLayout/SidebarLayout";
 import Followed from "@page/followed/Followed";
+import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
 
 function App() {
   // Defining all the application routes
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: ApplicationRoute.HOME,
       element: <Home />
     },
     {
       element: <HomeButtonLayout />,
       children: [
         {
-          path: "/login",
+          path: ApplicationRoute.LOGIN,
           element: <Login />
         }
       ]
@@ -28,11 +29,11 @@ function App() {
       element: <SidebarLayout />,
       children: [
         {
-          path: "/files",
+          path: ApplicationRoute.FILES,
           element: <Files />
         },
         {
-          path: "/followed",
+          path: ApplicationRoute.FOLLOWED,
           element: <Followed />
         }
       ]

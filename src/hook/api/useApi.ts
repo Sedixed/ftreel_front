@@ -33,7 +33,16 @@ export default function useApi<T, U>(
   // Send the request and returns the useQuery hook result
   return useQuery(
     options?.queryKey ?? endpoint.uri, 
-    () => fetch(finalURI, { headers: options?.headers }).then(res => res.json()), 
+    () => fetch(
+      finalURI, 
+      { headers: options?.headers, credentials: options?.credentialsPolicy ?? "include" }
+    ).then(res => {
+      if (endpoint.responseType === null) {
+        return null;
+      }
+      
+      return res.json()
+    }), 
     {
       staleTime: options?.staleTime 
     }
