@@ -23,6 +23,9 @@ export default function useApi<T, U>(
   // Extract query params and replace them with their associated values
   const queryParamPattern = /{[a-z0-9]+}/i;
   let finalURI = import.meta.env.VITE_API_HOST + endpoint.uri;
+  if (options?.searchParams != null) {
+    finalURI += "?" + options?.searchParams?.toString();
+  }
   endpoint.uri.match(queryParamPattern)?.forEach(queryParamIdentifier => {
     finalURI = finalURI.replace(
       queryParamIdentifier, 
@@ -44,7 +47,7 @@ export default function useApi<T, U>(
       return res.json()
     }), 
     {
-      staleTime: options?.staleTime 
+      staleTime: options?.staleTime
     }
   ) as UseQueryResult<U, any>;
 }

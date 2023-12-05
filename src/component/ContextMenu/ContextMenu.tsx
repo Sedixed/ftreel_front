@@ -1,6 +1,16 @@
-import { Box, IconButton, Menu, MenuItem, SxProps, Theme } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  SxProps,
+  Theme,
+} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import React from "react";
+import { ReactNode } from "react";
 
 /**
  * The context menu properties.
@@ -25,6 +35,11 @@ export type ContextMenuOption = {
    * Label of the option.
    */
   label: string;
+
+  /**
+   * The option icon.
+   */
+  icon?: ReactNode;
 
   /**
    * Callback called when the option is clicked
@@ -60,7 +75,8 @@ export function ContextMenu({ options, sx }: ContextMenuProps) {
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         {options.map((option) => (
           <MenuItem key={option.label} onClick={handleClose}>
-            <span
+            {option.icon && <ListItemIcon>{option.icon}</ListItemIcon>}
+            <ListItemText
               onClick={() =>
                 option.onClick != null
                   ? option.onClick({ label: option.label })
@@ -68,7 +84,7 @@ export function ContextMenu({ options, sx }: ContextMenuProps) {
               }
             >
               {option.label}
-            </span>
+            </ListItemText>
           </MenuItem>
         ))}
       </Menu>

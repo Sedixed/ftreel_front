@@ -25,7 +25,12 @@ type APIOptions = {
   /**
    * Indicates if the credentials should be included in the request and retrieved from the response (default: included).
    */
-  credentialsPolicy: RequestCredentials | undefined,
+  credentialsPolicy?: RequestCredentials,
+
+  /**
+   * The URL search params to append to the URL if needed.
+   */
+  searchParams?: URLSearchParams,
 }
 
 export default APIOptions;
