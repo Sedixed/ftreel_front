@@ -6,6 +6,8 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import TreeElement from "@component/FileTree/TreeElement/TreeElement";
 import DescriptionIcon from "@mui/icons-material/Description";
 import FolderIcon from "@mui/icons-material/Folder";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import { Box } from "@mui/material";
 
 /**
  * The file tree properties.
@@ -20,6 +22,8 @@ export type FileTreeProps = {
    * The files associated to the path.
    */
   files: File[];
+
+  onRefresh?: (path: string) => void;
 };
 
 /**
@@ -50,7 +54,7 @@ export type File = {
 /**
  * A file tree is a set of file (or directory) that are linked to other files.
  */
-export default function FileTree({ path, files }: FileTreeProps) {
+export default function FileTree({ path, files, onRefresh }: FileTreeProps) {
   // Constants that contains the context menus content depending on the file type
   const fileContextMenuOptions: ContextMenuOption[] = [
     { label: "Télécharger", icon: <DownloadIcon /> },
@@ -62,6 +66,11 @@ export default function FileTree({ path, files }: FileTreeProps) {
 
   return (
     <>
+      <RefreshIcon
+        sx={{ cursor: "pointer" }}
+        color="primary"
+        onClick={onRefresh != null ? () => onRefresh(path) : () => 0}
+      />
       {files.map((file) => (
         <TreeElement
           key={file.id}

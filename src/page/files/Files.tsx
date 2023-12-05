@@ -44,7 +44,13 @@ export default function Files() {
             <CircularProgress color="primary" />
           </CenterDiv>
         )}
-        {files && <FileTree path={currentTreePath} files={files} />}
+        {files && (
+          <FileTree
+            path={currentTreePath}
+            files={files}
+            onRefresh={() => refetch()}
+          />
+        )}
       </Box>
     </>
   );
