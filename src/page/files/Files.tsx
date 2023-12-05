@@ -12,9 +12,11 @@ import { buildURL } from "@utils/url-utils";
 import { useSearchParams } from "react-router-dom";
 
 export default function Files() {
+  // Get the current position in the file tree
   const currentSearchParams = useSearchParams();
   const currentTreePath = currentSearchParams[0].get("path") ?? "/";
 
+  // Send an API request to get the current files
   const filesRequestSearchParam = new URLSearchParams();
   filesRequestSearchParam.append("path", currentTreePath);
   const { data: files, error } = useApi(APIEndpoint.FILES, undefined, {
@@ -23,6 +25,7 @@ export default function Files() {
     staleTime: 60000,
   });
 
+  // Constants that contains the context menus content depending on the file type
   const fileContextMenuOptions: ContextMenuOption[] = [
     { label: "Télécharger", icon: <DownloadIcon /> },
   ];
