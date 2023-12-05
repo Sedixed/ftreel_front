@@ -91,7 +91,6 @@ export default function TreeElement({
         },
         ...sx,
       }}
-      onClick={containerOnClick}
     >
       <Box
         sx={{
@@ -101,11 +100,22 @@ export default function TreeElement({
           height: "100%",
           width: "50px",
         }}
+        onClick={containerOnClick}
       >
         {icon}
       </Box>
-      <span>{label}</span>
-      <Box sx={{ flex: "1", display: "flex", justifyContent: "end" }}>
+      <Box
+        sx={{
+          flex: "1",
+          display: "flex",
+          alignItems: "center",
+          height: "100%",
+        }}
+        onClick={containerOnClick}
+      >
+        {label}
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "end" }}>
         {contextOptions != null && <ContextMenu options={contextOptions} />}
       </Box>
     </Box>
