@@ -1,14 +1,14 @@
-import { ContextMenuOption } from "@component/ContextMenu/ContextMenu";
 import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
 import { buildURL } from "@utils/url-utils";
 import DownloadIcon from "@mui/icons-material/Download";
-import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import TreeElement from "@component/FileTree/TreeElement/TreeElement";
 import DescriptionIcon from "@mui/icons-material/Description";
 import FolderIcon from "@mui/icons-material/Folder";
+import InfoIcon from "@mui/icons-material/Info";
 import FileTreeActionBar from "@component/FileTree/FileTreeActionBar/FileTreeActionBar";
 import CenterDiv from "@component/CenterDiv/CenterDiv";
 import { CircularProgress } from "@mui/material";
+import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 
 /**
  * The file tree properties.
@@ -25,14 +25,21 @@ export type FileTreeProps = {
   files: File[];
 
   /**
+   * Boolean that indicates if the file tree is loading or not.
+   */
+  isLoading: boolean;
+
+  /**
    * Callback to call when the refresh button is clicked.
    */
   onRefresh?: (path: string) => void;
 
   /**
-   * Boolean that indicates if the file tree is loading or not.
+   * Callback to call when the detail button is clicked in a file context menu.
+   *
+   * @param file The file we want to get the details.
    */
-  isLoading: boolean;
+  onDetails?: (file: File) => void;
 };
 
 /**
@@ -63,49 +70,61 @@ export type File = {
 /**
  * A file tree is a set of file (or directory) that are linked to other files.
  */
-export default function FileTree({ path, files, onRefresh, isLoading }: FileTreeProps) {
-  // Constants that contains the context menus content depending on the file type
-  const fileContextMenuOptions: ContextMenuOption[] = [
-    { label: "Télécharger", icon: <DownloadIcon /> },
-  ];
-  const directoryContextMenuOptions: ContextMenuOption[] = [
-    { label: "Télécharger", icon: <DownloadIcon /> },
-    { label: "S'abonner", icon: <BookmarkAddIcon /> },
-  ];
+export default function FileTree({
+  path,
+  files,
+  isLoading,
+  onRefresh,
+  onDetails,
+}: FileTreeProps) {
+  const getContextMenuByFile = (file: File) => {
+    const downloadOption = { label: "Télécharger", icon: <DownloadIcon /> };
+    const detailOption = {
+      label: "Détails",
+      icon: <InfoIcon />,
+      onClick: onDetails != null ? () => onDetails(file) : () => 0,
+    };
+    const followOption = { label: "Suivre", icon: <BookmarkAddIcon /> };
+
+    if (file.type == "file") {
+      return [downloadOption, detailOption];
+    } else {
+      return [downloadOption, followOption, detailOption];
+    }
+  };
 
   return (
     <>
-      <FileTreeActionBar onRefresh={() => onRefresh != null ? onRefresh(path) : () => 0} />
+      <FileTreeActionBar
+        onRefresh={() => (onRefresh != null ? onRefresh(path) : () => 0)}
+      />
       {isLoading && (
-        <CenterDiv sx={{ borderTop: "1px solid lightgray", paddingTop: "10px" }}>
+        <CenterDiv sx={{ paddingTop: "10px" }}>
           <CircularProgress sx={{ width: "30%" }} color="primary" />
         </CenterDiv>
       )}
-      {!isLoading && files.map((file) => (
-        <TreeElement
-          key={file.id}
-          icon={
-            file.type == "file" ? (
-              <DescriptionIcon color="secondary" />
-            ) : (
-              <FolderIcon color="secondary" />
-            )
-          }
-          label={file.name}
-          contextOptions={
-            file.type == "file"
-              ? fileContextMenuOptions
-              : directoryContextMenuOptions
-          }
-          href={
-            file.type == "file"
-              ? undefined
-              : buildURL(ApplicationRoute.FILES, {
-                  path: path + file.name + "/",
-                })
-          }
-        />
-      ))}
+      {!isLoading &&
+        files.map((file) => (
+          <TreeElement
+            key={file.id}
+            icon={
+              file.type == "file" ? (
+                <DescriptionIcon color="secondary" />
+              ) : (
+                <FolderIcon color="secondary" />
+              )
+            }
+            label={file.name}
+            contextOptions={getContextMenuByFile(file)}
+            href={
+              file.type == "file"
+                ? undefined
+                : buildURL(ApplicationRoute.FILES, {
+                    path: path + file.name + "/",
+                  })
+            }
+          />
+        ))}
     </>
   );
 }

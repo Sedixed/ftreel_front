@@ -85,7 +85,7 @@ export default function TreeElement({
         alignItems: "center",
         cursor: "pointer",
         height: "50px",
-        borderTop: "1px solid lightgray",
+        borderBottom: "1px solid lightgray",
         ":hover": {
           backgroundColor: hexToRgb(theme.palette.primary.main + "10"),
         },
