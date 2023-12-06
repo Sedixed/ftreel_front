@@ -2,12 +2,11 @@ import { ContextMenuOption } from "@component/ContextMenu/ContextMenu";
 import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
 import { buildURL } from "@utils/url-utils";
 import DownloadIcon from "@mui/icons-material/Download";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import TreeElement from "@component/FileTree/TreeElement/TreeElement";
 import DescriptionIcon from "@mui/icons-material/Description";
 import FolderIcon from "@mui/icons-material/Folder";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import { Box } from "@mui/material";
+import FileTreeActionBar from "@component/FileTree/FileTreeActionBar/FileTreeActionBar";
 
 /**
  * The file tree properties.
@@ -61,16 +60,12 @@ export default function FileTree({ path, files, onRefresh }: FileTreeProps) {
   ];
   const directoryContextMenuOptions: ContextMenuOption[] = [
     { label: "Télécharger", icon: <DownloadIcon /> },
-    { label: "S'abonner", icon: <BookmarkIcon /> },
+    { label: "S'abonner", icon: <BookmarkAddIcon /> },
   ];
 
   return (
     <>
-      <RefreshIcon
-        sx={{ cursor: "pointer" }}
-        color="primary"
-        onClick={onRefresh != null ? () => onRefresh(path) : () => 0}
-      />
+      <FileTreeActionBar onRefresh={() => onRefresh != null ? onRefresh(path) : () => 0} />
       {files.map((file) => (
         <TreeElement
           key={file.id}

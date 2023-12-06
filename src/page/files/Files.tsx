@@ -4,10 +4,9 @@ import APIEndpoint from "@api/endpoint/APIEndpoint";
 import { useSearchParams } from "react-router-dom";
 import CenterDiv from "@component/CenterDiv/CenterDiv";
 import FileTree from "@component/FileTree/FileTree";
+import useSnackbar from "@hook/snackbar/useSnackbar";
 
 // TODO :
-// - Ajouter loader
-// - Ajouter bouton refresh
 // - Ajouter chemin courant
 // - Ajouter possibilité de revenir en arrière via le chemin courant
 // - Ajouter détails de fichier
@@ -17,23 +16,22 @@ export default function Files() {
   const currentSearchParams = useSearchParams();
   const currentTreePath = currentSearchParams[0].get("path") ?? "/";
 
+  // Setup the error snackbar
+  const { snackbar: errorSnackbar, show: showError } = useSnackbar("Impossible de récupérer les fichiers.", "warning");
+
   // Send an API request to get the current files
   const filesRequestSearchParam = new URLSearchParams();
   filesRequestSearchParam.append("path", currentTreePath);
   const {
     data: files,
-    error,
     isLoading,
     refetch,
   } = useApi(APIEndpoint.FILES, undefined, {
     queryKey: "/files" + currentTreePath,
     searchParams: filesRequestSearchParam,
     staleTime: 60000,
+    onError: () => showError()
   });
-
-  if (error) {
-    console.error(error);
-  }
 
   return (
     <>
@@ -52,6 +50,7 @@ export default function Files() {
           />
         )}
       </Box>
+      {errorSnackbar}
     </>
   );
 }
