@@ -1,8 +1,7 @@
-import { Box, CircularProgress } from "@mui/material";
+import { Box } from "@mui/material";
 import useApi from "@hook/api/useApi";
 import APIEndpoint from "@api/endpoint/APIEndpoint";
 import { useSearchParams } from "react-router-dom";
-import CenterDiv from "@component/CenterDiv/CenterDiv";
 import FileTree from "@component/FileTree/FileTree";
 import useSnackbar from "@hook/snackbar/useSnackbar";
 
@@ -37,18 +36,12 @@ export default function Files() {
     <>
       <Box sx={{ width: "90%", margin: "auto", paddingTop: "30px" }}>
         <h1>Fichiers</h1>
-        {isLoading && (
-          <CenterDiv sx={{ maxWidth: "30%", margin: "auto" }}>
-            <CircularProgress color="primary" />
-          </CenterDiv>
-        )}
-        {files && (
-          <FileTree
+        <FileTree
             path={currentTreePath}
-            files={files}
+            files={files != null ? files : []}
             onRefresh={() => refetch()}
+            isLoading={isLoading}
           />
-        )}
       </Box>
       {errorSnackbar}
     </>

@@ -7,6 +7,8 @@ import TreeElement from "@component/FileTree/TreeElement/TreeElement";
 import DescriptionIcon from "@mui/icons-material/Description";
 import FolderIcon from "@mui/icons-material/Folder";
 import FileTreeActionBar from "@component/FileTree/FileTreeActionBar/FileTreeActionBar";
+import CenterDiv from "@component/CenterDiv/CenterDiv";
+import { CircularProgress } from "@mui/material";
 
 /**
  * The file tree properties.
@@ -22,7 +24,15 @@ export type FileTreeProps = {
    */
   files: File[];
 
+  /**
+   * Callback to call when the refresh button is clicked.
+   */
   onRefresh?: (path: string) => void;
+
+  /**
+   * Boolean that indicates if the file tree is loading or not.
+   */
+  isLoading: boolean;
 };
 
 /**
@@ -53,7 +63,7 @@ export type File = {
 /**
  * A file tree is a set of file (or directory) that are linked to other files.
  */
-export default function FileTree({ path, files, onRefresh }: FileTreeProps) {
+export default function FileTree({ path, files, onRefresh, isLoading }: FileTreeProps) {
   // Constants that contains the context menus content depending on the file type
   const fileContextMenuOptions: ContextMenuOption[] = [
     { label: "Télécharger", icon: <DownloadIcon /> },
@@ -66,7 +76,12 @@ export default function FileTree({ path, files, onRefresh }: FileTreeProps) {
   return (
     <>
       <FileTreeActionBar onRefresh={() => onRefresh != null ? onRefresh(path) : () => 0} />
-      {files.map((file) => (
+      {isLoading && (
+        <CenterDiv sx={{ borderTop: "1px solid lightgray", paddingTop: "10px" }}>
+          <CircularProgress sx={{ width: "30%" }} color="primary" />
+        </CenterDiv>
+      )}
+      {!isLoading && files.map((file) => (
         <TreeElement
           key={file.id}
           icon={
