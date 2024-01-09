@@ -3,6 +3,8 @@ import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
 import { Box, Button, styled } from "@mui/material";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { LanguageSwitcher } from "@component/LanguageSwitcher/LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 /**
  * Home component containing the home of the application.
@@ -18,17 +20,20 @@ export default function Home() {
     navigate(ApplicationRoute.LOGIN);
   }, []);
 
+  const { t } = useTranslation();
+
   return (
     <HomeWrapper>
       <TitleContainer>
         <ApplicationTitle>FTreel</ApplicationTitle>
         <ApplicationSubtitle>LEO TROUVE UN SLOGAN</ApplicationSubtitle>
+        <LanguageSwitcher />
         <Box marginTop={5}>
           <Button variant="contained" onClick={onAccessButtonClick} style={{ zIndex: "1", width: "45%", marginRight: "5px" }}>
-            Accéder
+            {t('homeAccess')}
           </Button>
           <Button variant="outlined" onClick={onLoginButtonClick} style={{ zIndex: "1", width: "45%" }}>
-            Se connecter
+            {t('homeLogin')}
           </Button>
         </Box>
       </TitleContainer>

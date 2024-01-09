@@ -8,6 +8,7 @@ import Files from "@page/files/Files";
 import SidebarLayout from "layout/SidebarLayout/SidebarLayout";
 import Followed from "@page/followed/Followed";
 import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
+import './i18n'
 
 function App() {
   // Defining all the application routes
