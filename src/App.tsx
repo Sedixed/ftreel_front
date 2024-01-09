@@ -9,6 +9,7 @@ import SidebarLayout from "layout/SidebarLayout/SidebarLayout";
 import Followed from "@page/followed/Followed";
 import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
 import './i18n'
+import { LanguageSwitcher } from "@component/LanguageSwitcher/LanguageSwitcher";
 
 function App() {
   // Defining all the application routes

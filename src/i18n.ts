@@ -5,11 +5,19 @@ const resources = {
   en: {
     translation: {
       homeLogin: 'Login',
+      homeAccess: 'Access files',
+      loginLogin: 'Login',
+      loginUsername: 'Username',
+      loginPassword: 'Password',
     },
   },
   fr: {
     translation: {
       homeLogin: 'Connexion',
+      homeAccess: 'Accéder',
+      loginLogin: 'Se connecter',
+      loginUsername: 'Nom d\'utilisateur',
+      loginPassword: 'Mot de passe',
     },
   },
 };
