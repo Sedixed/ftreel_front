@@ -23,6 +23,9 @@ export default function useApi<T, U>(
   // Extract query params and replace them with their associated values
   const queryParamPattern = /{[a-z0-9]+}/i;
   let finalURI = import.meta.env.VITE_API_HOST + endpoint.uri;
+  if (options?.searchParams != null) {
+    finalURI += "?" + options?.searchParams?.toString();
+  }
   endpoint.uri.match(queryParamPattern)?.forEach(queryParamIdentifier => {
     finalURI = finalURI.replace(
       queryParamIdentifier, 
@@ -33,18 +36,28 @@ export default function useApi<T, U>(
   // Send the request and returns the useQuery hook result
   return useQuery(
     options?.queryKey ?? endpoint.uri, 
-    () => fetch(
-      finalURI, 
-      { headers: options?.headers, credentials: options?.credentialsPolicy ?? "include" }
-    ).then(res => {
+    async () => {
+      const response = await fetch(finalURI, {
+        headers: options?.headers, 
+        credentials: options?.credentialsPolicy ?? "include" 
+      });
+
+      // Check error and throw the response body if there is one
+      if (!response.ok) {
+        throw await response.json();
+      }
+
       if (endpoint.responseType === null) {
         return null;
       }
-      
-      return res.json()
-    }), 
+
+      return response.json();
+    },
     {
-      staleTime: options?.staleTime 
+      staleTime: options?.staleTime,
+      onSuccess: options?.onSuccess,
+      onError: options?.onError,
+      retry: options?.retry ?? 0,
     }
   ) as UseQueryResult<U, any>;
 }

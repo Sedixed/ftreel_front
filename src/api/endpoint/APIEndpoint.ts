@@ -2,6 +2,7 @@ import { Class } from "@type/Class";
 import AuthenticationRequestDTO from "@dto/request/authentication/AuthenticationRequestDTO";
 import RegistrationRequestDTO from "@api/dto/request/authentication/RegistrationRequestDTO";
 import RegistrationResponseDTO from "@api/dto/response/authentication/RegistrationResponseDTO";
+import FileResponseDTO from "@api/dto/response/files/FileResponseDTO";
 
 /**
  * Class containing the API endpoints metadata (URI, request type...). This class also contains all the existing API 
@@ -14,6 +15,7 @@ export default class APIEndpoint<T, U> {
 
   public static readonly LOGIN = new APIEndpoint("/Authentication/Login", "POST", AuthenticationRequestDTO, null);
   public static readonly REGISTER = new APIEndpoint("/Authentication/Register", "POST", RegistrationRequestDTO, RegistrationResponseDTO);
+  public static readonly FILES = new APIEndpoint("/files", "GET", null, Array<FileResponseDTO>);
 
   /**
    * @param uri          The endpoint's URI.

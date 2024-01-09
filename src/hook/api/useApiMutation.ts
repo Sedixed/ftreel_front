@@ -15,7 +15,7 @@ import APIOptions from "@type/APIOptions";
 export default function useApiMutation<T, U>(
   endpoint: APIEndpoint<T, U>, 
   requestData: T | null, 
-  sendRequest: Boolean = true,
+  sendRequest: boolean = true,
   options: APIOptions | undefined = undefined
 ) {
   // Check that the given endpoint method is GET
@@ -25,22 +25,29 @@ export default function useApiMutation<T, U>(
 
   // Setup the mutation
   const queryClient = useQueryClient();
-  const mutation = useMutation((data) => 
-    fetch(import.meta.env.VITE_API_HOST + endpoint.uri, {
-      method: endpoint.method,
-      body: JSON.stringify(requestData ?? data),
-      headers: {
-        "Content-Type": options?.headers?.["Content-Type"] ?? "application/json",
-        ...options?.headers,
-      },
-      credentials: options?.credentialsPolicy ?? "include",
-    }).then(res => {
+  const mutation = useMutation(
+    async (data) => {
+      const response = await fetch(import.meta.env.VITE_API_HOST + endpoint.uri, {
+        method: endpoint.method,
+        body: JSON.stringify(requestData ?? data),
+        headers: {
+          "Content-Type": options?.headers?.["Content-Type"] ?? "application/json",
+          ...options?.headers,
+        },
+        credentials: options?.credentialsPolicy ?? "include",
+      })
+
+      // Check error and throw the response body if there is one
+      if (!response.ok) {
+        throw await response.json();
+      }
+
       if (endpoint.responseType === null) {
         return null;
       }
-      
-      return res.json();
-    }),
+
+      return response.json();
+    },
     {
       onSuccess: (data) => {
         if (options?.queryKey != undefined) {
@@ -49,7 +56,12 @@ export default function useApiMutation<T, U>(
         if (options?.invalidateQueries != undefined) {
           queryClient.invalidateQueries(options.invalidateQueries)
         }
+        if (options?.onSuccess) {
+          options?.onSuccess();
+        }
       },
+      onError: options?.onError,
+      retry: options?.retry ?? 0
     },
   ) as UseMutationResult<U, any, any, any>;
 
