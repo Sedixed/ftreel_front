@@ -46,6 +46,11 @@ type APIOptions = {
    * The amount of time a request must be retried before returning the real error.
    */
   retry?: number,
+
+  /**
+   * Set this to false to disable this query from automatically running (only works on useApi). 
+   */
+  enabled?: boolean,
 }
 
 export default APIOptions;

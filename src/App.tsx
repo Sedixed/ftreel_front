@@ -1,4 +1,4 @@
-import React from "react"
+import React, {  } from "react"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Home from "@page/home/Home";
 import Login from "@page/login/Login";
@@ -8,34 +8,40 @@ import Files from "@page/files/Files";
 import SidebarLayout from "layout/SidebarLayout/SidebarLayout";
 import Followed from "@page/followed/Followed";
 import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
-import './i18n'
+import './i18n.ts'
+import { GlobalLayout } from "layout/GlobalLayout/GlobalLayout.tsx";
 
 function App() {
   // Defining all the application routes
   const router = createBrowserRouter([
     {
-      path: ApplicationRoute.HOME,
-      element: <Home />
-    },
-    {
-      element: <HomeButtonLayout />,
+      element: <GlobalLayout/>,
       children: [
         {
-          path: ApplicationRoute.LOGIN,
-          element: <Login />
-        }
-      ]
-    },
-    {
-      element: <SidebarLayout />,
-      children: [
-        {
-          path: ApplicationRoute.FILES,
-          element: <Files />
+          path: ApplicationRoute.HOME,
+          element: <Home />
         },
         {
-          path: ApplicationRoute.FOLLOWED,
-          element: <Followed />
+          element: <HomeButtonLayout />,
+          children: [
+            {
+              path: ApplicationRoute.LOGIN,
+              element: <Login />
+            }
+          ]
+        },
+        {
+          element: <SidebarLayout />,
+          children: [
+            {
+              path: ApplicationRoute.FILES,
+              element: <Files />
+            },
+            {
+              path: ApplicationRoute.FOLLOWED,
+              element: <Followed />
+            }
+          ]
         }
       ]
     }

@@ -55,6 +55,7 @@ export default function useApi<T, U>(
     },
     {
       staleTime: options?.staleTime,
+      enabled: options?.enabled ?? true,
       onSuccess: options?.onSuccess,
       onError: options?.onError,
       retry: options?.retry ?? 0,

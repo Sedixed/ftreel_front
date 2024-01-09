@@ -16,6 +16,7 @@ export default class APIEndpoint<T, U> {
   public static readonly LOGIN = new APIEndpoint("/Authentication/Login", "POST", AuthenticationRequestDTO, null);
   public static readonly REGISTER = new APIEndpoint("/Authentication/Register", "POST", RegistrationRequestDTO, RegistrationResponseDTO);
   public static readonly FILES = new APIEndpoint("/files", "GET", null, Array<FileResponseDTO>);
+  public static readonly GET_USER = new APIEndpoint("/Authentication/GetUser", "GET", null, RegistrationResponseDTO);
 
   /**
    * @param uri          The endpoint's URI.
