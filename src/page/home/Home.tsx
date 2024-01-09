@@ -3,7 +3,6 @@ import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
 import { Box, Button, styled } from "@mui/material";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { LanguageSwitcher } from "@component/LanguageSwitcher/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 
 /**
@@ -24,10 +23,9 @@ export default function Home() {
 
   return (
     <HomeWrapper>
-      <TitleContainer>
+      <TitleContainer> 
         <ApplicationTitle>FTreel</ApplicationTitle>
-        <ApplicationSubtitle>LEO TROUVE UN SLOGAN</ApplicationSubtitle>
-        <LanguageSwitcher />
+        <ApplicationSubtitle>{t('homeSlogan')}</ApplicationSubtitle>
         <Box marginTop={5}>
           <Button variant="contained" onClick={onAccessButtonClick} style={{ zIndex: "1", width: "45%", marginRight: "5px" }}>
             {t('homeAccess')}

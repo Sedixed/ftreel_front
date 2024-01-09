@@ -8,8 +8,9 @@ import Files from "@page/files/Files";
 import SidebarLayout from "layout/SidebarLayout/SidebarLayout";
 import Followed from "@page/followed/Followed";
 import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
-import './i18n.ts'
 import { GlobalLayout } from "layout/GlobalLayout/GlobalLayout.tsx";
+import './i18n'
+import { LanguageSwitcher } from "@component/LanguageSwitcher/LanguageSwitcher";
 
 function App() {
   // Defining all the application routes
@@ -78,6 +79,7 @@ function App() {
 
   return (
     <React.StrictMode>
+      <LanguageSwitcher />
       {/* Provide the application theme */}
       <ThemeProvider theme={theme}>
         <CssBaseline />

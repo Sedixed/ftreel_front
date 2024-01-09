@@ -17,6 +17,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { ReactNode, useMemo } from "react";
 import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
+import { useTranslation } from "react-i18next";
 
 /**
  * Describe an element to place inside the sidebar.
@@ -52,6 +53,8 @@ type SidebarElement = {
  * Layout adding a sidebar at the left of its childrens.
  */
 export default function SidebarLayout() {
+  const { t } = useTranslation();
+  const { i18n } = useTranslation();
   const location = useLocation();
   const theme = useTheme();
 
@@ -63,29 +66,29 @@ export default function SidebarLayout() {
         key: "home",
         href: ApplicationRoute.HOME,
         icon: <HomeIcon />,
-        label: "Accueil",
+        label: t('sidebarHome'),
       },
       {
         key: "files",
         href: ApplicationRoute.FILES,
         icon: <FolderIcon />,
-        label: "Fichiers",
+        label: t('sidebarFiles'),
       },
       {
         key: "followed",
         href: ApplicationRoute.FOLLOWED,
         icon: <BookmarkIcon />,
-        label: "Suivis",
+        label: t('sidebarFollowed'),
       },
       {
         key: "logout",
         href: ApplicationRoute.LOGOUT,
         icon: <LogoutIcon />,
-        label: "Déconnexion",
+        label: t('sidebarLogout'),
         anchor: "bottom",
       },
     ],
-    []
+    [i18n.language]
   );
 
   const buildSidebarElement = (element: SidebarElement) => {

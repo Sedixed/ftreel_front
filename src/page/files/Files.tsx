@@ -6,6 +6,7 @@ import FileTree, { File } from "@component/FileTree/FileTree";
 import CloseIcon from "@mui/icons-material/Close";
 import useSnackbar from "@hook/snackbar/useSnackbar";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 // TODO :
 // - Ajouter chemin courant
@@ -13,6 +14,9 @@ import { useState } from "react";
 // - Ajouter détails de fichier
 
 export default function Files() {
+
+  const { t } = useTranslation();
+
   // State of the detail panel
   const [detailPanelContent, setDetailPanelContent] = useState<File | null>(
     null
@@ -56,7 +60,7 @@ export default function Files() {
           transition: `width ${detailOpenDuration}s`,
         }}
       >
-        <h1>Fichiers</h1>
+        <h1>{t('filesFiles')}</h1>
         <FileTree
           path={currentTreePath}
           files={files != null ? files : []}
