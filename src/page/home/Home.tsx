@@ -25,7 +25,7 @@ export default function Home() {
     <HomeWrapper>
       <TitleContainer> 
         <ApplicationTitle>FTreel</ApplicationTitle>
-        <ApplicationSubtitle>LEO TROUVE UN SLOGAN</ApplicationSubtitle>
+        <ApplicationSubtitle>{t('homeSlogan')}</ApplicationSubtitle>
         <Box marginTop={5}>
           <Button variant="contained" onClick={onAccessButtonClick} style={{ zIndex: "1", width: "45%", marginRight: "5px" }}>
             {t('homeAccess')}

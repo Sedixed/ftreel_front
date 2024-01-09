@@ -73,6 +73,7 @@ function App() {
 
   return (
     <React.StrictMode>
+      <LanguageSwitcher />
       {/* Provide the application theme */}
       <ThemeProvider theme={theme}>
         <CssBaseline />
