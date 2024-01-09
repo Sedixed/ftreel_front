@@ -93,8 +93,9 @@ export default function SidebarLayout() {
       <Link
         to={element.href}
         style={{ textDecoration: "none", color: "inherit" }}
+        key={element.key}
       >
-        <ListItem key={element.key} disablePadding>
+        <ListItem disablePadding>
           <ListItemButton selected={location.pathname == element.href}>
             <ListItemIcon sx={{ color: "inherit" }}>
               {element.icon}
@@ -153,7 +154,7 @@ export default function SidebarLayout() {
 
       <Box
         sx={{
-          width: { sm: `calc(100% - ${sidebarWidth}px)` },
+          width: { sm: `calc(100% - ${sidebarWidth}px)`, xs: "100%" },
           ml: { sm: `${sidebarWidth}px` },
         }}
       >
