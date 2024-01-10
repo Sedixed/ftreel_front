@@ -9,14 +9,15 @@ export function GlobalLayout() {
   const queryClient = useQueryClient();
 
   // Send an API request to get the user informations
-  const { refetch } = useApi(APIEndpoint.GET_USER, undefined, {
+  const { refetch, isStale } = useApi(APIEndpoint.GET_USER, undefined, {
     queryKey: "user",
     enabled: false,
+    staleTime: 5 * 60 * 1000,
   });
 
   // Refetch the API request if the location change
   useEffect(() => {
-    if (!queryClient.getQueryData("user")) {
+    if (!queryClient.getQueryData("user") || isStale) {
       refetch();
     }
   }, [location.pathname]);

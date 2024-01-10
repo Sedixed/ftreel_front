@@ -68,6 +68,13 @@ export type FileTreeProps = {
    */
   onUpdateFile?: (file: File) => void;
   onUpdateDirectory?: (file: File) => void;
+
+  /**
+   * Callback called when the back button is clicked.
+   * 
+   * @param newPath The new file tree path.
+   */
+  onBack?: (newPath: string) => void;
 };
 
 /**
@@ -125,6 +132,7 @@ export default function FileTree({
   onUpdateDirectory,
   onDeleteDirectory,
   onDeleteFile,
+  onBack,
 }: FileTreeProps) {
   const getContextMenuByFile = (file: File) => {
     const downloadOption = { label: "Télécharger", icon: <DownloadIcon /> };
@@ -162,16 +170,22 @@ export default function FileTree({
     }
   };
 
-  console.log(files, buildURL(ApplicationRoute.FILES, {
-    path: path + files[0]?.name + "/",
-  }))
-
   return (
     <>
       <FileTreeActionBar
         onRefresh={() => (onRefresh != null ? onRefresh(path) : () => 0)}
-        onAddDirectory={() => (onCreateDirectory != null ? onCreateDirectory() : () => 0)}
-        onAddFile={() => (onCreateFile != null ? onCreateFile() : () => 0)}
+        onAddDirectory={onCreateDirectory}
+        onAddFile={onCreateFile}
+        onBack={() => {
+          let newPath = path == "/" ? ["/"] : path.split("/")
+          if (path !== "/") {
+            newPath.pop();
+            newPath.pop();
+          }
+          newPath = [newPath.join("/")]
+
+          return onBack != null ? onBack(newPath[0] == "" ? "/" : newPath[0]) : () => 0
+        }}
       />
       {isLoading && (
         <CenterDiv sx={{ paddingTop: "10px" }}>

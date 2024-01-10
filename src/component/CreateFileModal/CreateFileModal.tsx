@@ -2,6 +2,7 @@ import UploadDocumentRequestDTO from "@api/dto/request/document/UploadDocumentRe
 import DocumentResponseDTO from "@api/dto/response/document/DocumentResponseDTO";
 import APIEndpoint from "@api/endpoint/APIEndpoint";
 import useApiMutation from "@hook/api/useApiMutation";
+import useUser from "@hook/user/useUser";
 import { Box, Button, TextField } from "@mui/material";
 import { MuiFileInput } from "mui-file-input";
 import { useRef, useState } from "react";
@@ -30,6 +31,9 @@ export default function CreateFileModal({
   onError,
   onSuccess,
 }: CreateFileModalProps) {
+  // Get user
+  const user = useUser();
+
   // Form values and references
   const titleRef = useRef<HTMLInputElement | null>(null);
   const descriptionRef = useRef<HTMLInputElement | null>(null);
@@ -61,7 +65,7 @@ export default function CreateFileModal({
       title ?? "Pas de titre", 
       description ?? "Pas de description", 
       file?.name.split(".").pop() ?? "", 
-      "TODO",
+      user.mail,
       categoryId, 
       base64File.split(",")[1]
     ))

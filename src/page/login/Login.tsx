@@ -7,12 +7,15 @@ import { TextField, Button } from "@mui/material";
 import { SyntheticEvent, useCallback, useRef } from "react";
 import AuthenticationRequestDTO from '../../api/dto/request/authentication/AuthenticationRequestDTO';
 import { useTranslation } from "react-i18next";
+import { useQueryClient } from "react-query";
 
 export default function Login() {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
-  const { mutate } = useApiMutation(APIEndpoint.LOGIN, null, false);
+  const queryClient = useQueryClient();
+
+  const { mutate, isSuccess } = useApiMutation(APIEndpoint.LOGIN, null, false);
 
   const { t } = useTranslation();
 
@@ -26,6 +29,10 @@ export default function Login() {
     // Call API
     mutate(new AuthenticationRequestDTO(login, password));
   }, []);
+
+  if (isSuccess) {
+    queryClient.invalidateQueries("user");
+  }
 
   return (
     <>

@@ -28,7 +28,6 @@ export default function useApiMutation<T, U>(
   const mutation = useMutation(
     async (data) => {
       let finalURI = import.meta.env.VITE_API_HOST + endpoint.uri;
-      console.log(data, finalURI)
       if (options?.dataAsQueryParam) {
         // Extract query params and replace them with their associated values
         const queryParamPattern = /{[a-z0-9]+}/i;

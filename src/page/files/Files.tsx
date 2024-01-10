@@ -18,7 +18,6 @@ import DocumentSkeletonResponseDTO from "@api/dto/response/document/DocumentSkel
 
 // TODO :
 // - Ajouter chemin courant
-// - Ajouter possibilité de revenir en arrière via le chemin courant
 export default function Files() {
   const { t } = useTranslation();
 
@@ -63,8 +62,11 @@ export default function Files() {
     });
 
   // Get the current position in the file tree
-  const currentSearchParams = useSearchParams();
-  const currentTreePath = currentSearchParams[0].get("path") ?? "/";
+  const [currentSearchParams, setSearchParams] = useSearchParams();
+  const updateSearchParams = (key: string, value: string) => {
+    setSearchParams({[key]: value})    ;   
+  }
+  const currentTreePath = currentSearchParams.get("path") ?? "/";
 
   // Send an API request to get the current files
   const filesRequestSearchParam = new URLSearchParams();
@@ -154,6 +156,7 @@ export default function Files() {
           onDeleteDirectory={(file) => deleteCategory({id: file.id})}
           onDeleteFile={(file) => deleteDocument({id: file.id})}
           isLoading={isLoading}
+          onBack={(newPath) => updateSearchParams("path", newPath)}
         />
       </Box>
       { category && 
