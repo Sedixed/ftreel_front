@@ -184,7 +184,7 @@ export default function FileTree({
           }
           newPath = [newPath.join("/")]
 
-          return onBack != null ? onBack(newPath[0] == "" ? "/" : newPath[0]) : () => 0
+          return onBack != null ? onBack(newPath[0] == "" ? "/" : newPath[0] + "/") : () => 0
         }}
       />
       {isLoading && (
