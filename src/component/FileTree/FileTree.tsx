@@ -10,7 +10,7 @@ import CenterDiv from "@component/CenterDiv/CenterDiv";
 import { CircularProgress } from "@mui/material";
 import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import DeleteIcon from '@mui/icons-material/Delete';
-import GearIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 /**
  * The file tree properties.
@@ -135,7 +135,7 @@ export default function FileTree({
     };
     const updateOption = {
       label: "Modifier",
-      icon: <GearIcon />,
+      icon: <EditIcon />,
       onClick: onUpdateFile != null ? () => onUpdateFile(file) : () => 0,
     };
     const followOption = { label: "Suivre", icon: <BookmarkAddIcon /> };
@@ -145,17 +145,26 @@ export default function FileTree({
     };
 
     if (file.type == "file") {
-      return [downloadOption, detailOption, 
+      return [
+        downloadOption, 
+        { ...updateOption, onClick: onUpdateFile != null ? () => onUpdateFile(file) : () => 0 },
         { ...deleteOption, onClick: onDeleteFile != null ? () => onDeleteFile(file) : () => 0 },
-        { ...updateOption, onClick: onUpdateFile != null ? () => onUpdateFile(file) : () => 0 }
+        detailOption,
       ];
     } else {
-      return [downloadOption, followOption, detailOption, 
+      return [
+        downloadOption, 
+        followOption, 
+        { ...updateOption, onClick: onUpdateDirectory != null ? () => onUpdateDirectory(file) : () => 0 },
         { ...deleteOption, onClick: onDeleteDirectory != null ? () => onDeleteDirectory(file) : () => 0 },
-        { ...updateOption, onClick: onUpdateDirectory != null ? () => onUpdateDirectory(file) : () => 0 }
+        detailOption,
       ];
     }
   };
+
+  console.log(files, buildURL(ApplicationRoute.FILES, {
+    path: path + files[0]?.name + "/",
+  }))
 
   return (
     <>

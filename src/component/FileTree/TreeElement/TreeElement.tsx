@@ -76,7 +76,7 @@ export default function TreeElement({
     } else if (onClick != null) {
       onClick({ label, href });
     }
-  }, []);
+  }, [href]);
 
   return (
     <Box

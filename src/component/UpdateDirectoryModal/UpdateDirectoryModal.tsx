@@ -67,7 +67,7 @@ export default function UpdateDirectoryModal({
     <>
       <h2>Modifier le dossier</h2>
       <Box sx={{ margin: "10px 0" }}>
-        <TextField inputRef={nameRef} placeholder={currentDirectory.name} sx={{ width: "100%" }} />
+        <TextField inputRef={nameRef} placeholder="Nom" defaultValue={currentDirectory.name} sx={{ width: "100%" }} />
       </Box>
       <Button variant="contained" onClick={onSubmit}>Modifier</Button>
     </>
