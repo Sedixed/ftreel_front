@@ -55,7 +55,7 @@ type APIOptions = {
   /**
    * Indicates that the given data for useApiMutation should be interpreted as a query param.
    */
-  dataAsQueryParam: boolean,
+  dataAsQueryParam?: boolean,
 }
 
 export default APIOptions;
