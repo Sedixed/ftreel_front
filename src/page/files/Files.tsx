@@ -27,6 +27,9 @@ export default function Files() {
   // State of the create file modal
   const [createFileModalOpen, setCreateFileModalOpen] = useState(false);
 
+  // State of the create file modal
+  const [updateFileModalOpen, setUpdateFileModalOpen] = useState(false);
+
   // State of the create directory modal
   const [createDirectoryModalOpen, setCreateDirectoryModalOpen] = useState(false);
 
@@ -113,6 +116,7 @@ export default function Files() {
           onRefresh={() => refetch()}
           onDetails={setDetailPanelContent}
           onCreateFile={() => setCreateFileModalOpen(true)}
+          onUpdateFile={() => setUpdateFileModalOpen(true)}
           onCreateDirectory={() => setCreateDirectoryModalOpen(true)}
           onDeleteDirectory={(file) => deleteCategory({id: file.id})}
           onDeleteFile={(file) => deleteDocument({id: file.id})}
@@ -140,12 +144,36 @@ export default function Files() {
         </CenteredModal>
       }
       {
+        category && 
+        <CenteredModal open={updateFileModalOpen} handleClose={() => setUpdateFileModalOpen(false)}>
+          <UpdateFileModal 
+            categoryId={category?.id ?? 0} 
+            onSuccess={() => {
+              setUpdateFileModalOpen(false);
+              refetch();
+            }}
+          />
+        </CenteredModal>
+      }
+      {
         category &&
         <CenteredModal open={createDirectoryModalOpen} handleClose={() => setCreateDirectoryModalOpen(false)}>
           <CreateDirectoryModal 
             categoryId={category?.id ?? 0} 
             onSuccess={() => {
               setCreateDirectoryModalOpen(false);
+              refetch();
+            }}
+          />
+        </CenteredModal>
+      }
+      {
+        category && 
+        <CenteredModal open={updateDirectoryModalOpen} handleClose={() => setUpdateDirectoryModalOpen(false)}>
+          <UpdateDirectoryModal
+            categoryId={category?.id ?? 0} 
+            onSuccess={() => {
+              setUpdateDirectoryModalOpen(false);
               refetch();
             }}
           />

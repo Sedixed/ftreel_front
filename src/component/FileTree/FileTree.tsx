@@ -10,6 +10,7 @@ import CenterDiv from "@component/CenterDiv/CenterDiv";
 import { CircularProgress } from "@mui/material";
 import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import DeleteIcon from '@mui/icons-material/Delete';
+import GearIcon from '@mui/icons-material/Delete';
 
 /**
  * The file tree properties.
@@ -59,6 +60,14 @@ export type FileTreeProps = {
    */
   onDeleteFile?: (file: File) => void;
   onDeleteDirectory?: (file: File) => void;
+  
+  /**
+   * Callback called when the update button is clicked.
+   * 
+   * @param file The file to update
+   */
+  onUpdateFile?: (file: File) => void;
+  onUpdateDirectory?: (file: File) => void;
 };
 
 /**
@@ -111,7 +120,9 @@ export default function FileTree({
   onRefresh,
   onDetails,
   onCreateFile,
+  onUpdateFile,
   onCreateDirectory,
+  onUpdateDirectory,
   onDeleteDirectory,
   onDeleteFile,
 }: FileTreeProps) {
@@ -122,6 +133,11 @@ export default function FileTree({
       icon: <InfoIcon />,
       onClick: onDetails != null ? () => onDetails(file) : () => 0,
     };
+    const updateOption = {
+      label: "Modifier",
+      icon: <GearIcon />,
+      onClick: onUpdateFile != null ? () => onUpdateFile(file) : () => 0,
+    };
     const followOption = { label: "Suivre", icon: <BookmarkAddIcon /> };
     const deleteOption = {
       label: "Supprimer", 
@@ -129,9 +145,15 @@ export default function FileTree({
     };
 
     if (file.type == "file") {
-      return [downloadOption, detailOption, { ...deleteOption, onClick: onDeleteFile != null ? () => onDeleteFile(file) : () => 0 }];
+      return [downloadOption, detailOption, 
+        { ...deleteOption, onClick: onDeleteFile != null ? () => onDeleteFile(file) : () => 0 },
+        { ...updateOption, onClick: onUpdateFile != null ? () => onUpdateFile(file) : () => 0 }
+      ];
     } else {
-      return [downloadOption, followOption, detailOption, { ...deleteOption, onClick: onDeleteDirectory != null ? () => onDeleteDirectory(file) : () => 0 }];
+      return [downloadOption, followOption, detailOption, 
+        { ...deleteOption, onClick: onDeleteDirectory != null ? () => onDeleteDirectory(file) : () => 0 },
+        { ...updateOption, onClick: onUpdateDirectory != null ? () => onUpdateDirectory(file) : () => 0 }
+      ];
     }
   };
 
