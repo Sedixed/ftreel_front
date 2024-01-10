@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import APIOptions from "@type/APIOptions";
 
 /**
- * Send a mutation request (POST, PUT or DELETE) to the given endpoint.
+ * Send a mutation request (POST, PUT, PATCH or DELETE) to the given endpoint.
  * 
  * @param  endpoint    The endpoint to send the request.
  * @param  requestData The data to send, can be null if the request is sent later (sendRequest = false).
@@ -27,9 +27,25 @@ export default function useApiMutation<T, U>(
   const queryClient = useQueryClient();
   const mutation = useMutation(
     async (data) => {
-      const response = await fetch(import.meta.env.VITE_API_HOST + endpoint.uri, {
+      let finalURI = import.meta.env.VITE_API_HOST + endpoint.uri;
+      console.log(data, finalURI)
+      if (options?.dataAsQueryParam) {
+        // Extract query params and replace them with their associated values
+        const queryParamPattern = /{[a-z0-9]+}/i;
+        if (options?.searchParams != null) {
+          finalURI += "?" + options?.searchParams?.toString();
+        }
+        endpoint.uri.match(queryParamPattern)?.forEach(queryParamIdentifier => {
+          finalURI = finalURI.replace(
+            queryParamIdentifier, 
+            data[queryParamIdentifier.substring(1, queryParamIdentifier.indexOf("}"))]
+          );
+        });
+      }
+
+      const response = await fetch(finalURI, {
         method: endpoint.method,
-        body: JSON.stringify(requestData ?? data),
+        body: options?.dataAsQueryParam ? null : JSON.stringify(requestData ?? data),
         headers: {
           "Content-Type": options?.headers?.["Content-Type"] ?? "application/json",
           ...options?.headers,

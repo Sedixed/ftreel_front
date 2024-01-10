@@ -1,11 +1,11 @@
 /**
- * Login request data.
+ * Authentication request data.
  */
 export default class AuthenticationRequestDTO {
   
   /**
-   * @param login    The user's login.
-   * @param password The user's password.
+   * @param username    The user's username.
+   * @param password    The user's password.
    */
   constructor(
     public readonly username: string,

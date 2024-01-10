@@ -1,15 +1,16 @@
 /**
- * Register request data.
+ * Registration request data.
  */
 export default class RegistrationRequestDTO {
   
   /**
-   * @param login    The user's login.
-   * @param password The user's password.
+   * @param username    The user's username.
+   * @param password    The user's password.
    */
   constructor(
-    public readonly login: string,
+    public readonly username: string,
     public readonly password: string,
+    public readonly roles: string[],
   ) {}
 
 }

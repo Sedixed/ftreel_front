@@ -51,6 +51,11 @@ type APIOptions = {
    * Set this to false to disable this query from automatically running (only works on useApi). 
    */
   enabled?: boolean,
+
+  /**
+   * Indicates that the given data for useApiMutation should be interpreted as a query param.
+   */
+  dataAsQueryParam: boolean,
 }
 
 export default APIOptions;

@@ -9,6 +9,7 @@ import FileTreeActionBar from "@component/FileTree/FileTreeActionBar/FileTreeAct
 import CenterDiv from "@component/CenterDiv/CenterDiv";
 import { CircularProgress } from "@mui/material";
 import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 /**
  * The file tree properties.
@@ -40,6 +41,24 @@ export type FileTreeProps = {
    * @param file The file we want to get the details.
    */
   onDetails?: (file: File) => void;
+
+  /**
+   * Callback called when the create file button is clicked.
+   */
+  onCreateFile?: () => void;
+
+  /**
+   * Callback called when the create directory button is clicked.
+   */
+  onCreateDirectory?: () => void;
+
+  /**
+   * Callback called when the delete button is clicked.
+   * 
+   * @param file The file to delete
+   */
+  onDeleteFile?: (file: File) => void;
+  onDeleteDirectory?: (file: File) => void;
 };
 
 /**
@@ -65,6 +84,21 @@ export type File = {
    * The file's name.
    */
   name: string;
+
+  /**
+   * The file's description.
+   */
+  description?: string;
+
+  /**
+   * The file's author.
+   */
+  author?: string;
+
+  /**
+   * The file's extension.
+   */
+  extension?: string;
 };
 
 /**
@@ -76,6 +110,10 @@ export default function FileTree({
   isLoading,
   onRefresh,
   onDetails,
+  onCreateFile,
+  onCreateDirectory,
+  onDeleteDirectory,
+  onDeleteFile,
 }: FileTreeProps) {
   const getContextMenuByFile = (file: File) => {
     const downloadOption = { label: "Télécharger", icon: <DownloadIcon /> };
@@ -85,11 +123,15 @@ export default function FileTree({
       onClick: onDetails != null ? () => onDetails(file) : () => 0,
     };
     const followOption = { label: "Suivre", icon: <BookmarkAddIcon /> };
+    const deleteOption = {
+      label: "Supprimer", 
+      icon: <DeleteIcon />,
+    };
 
     if (file.type == "file") {
-      return [downloadOption, detailOption];
+      return [downloadOption, detailOption, { ...deleteOption, onClick: onDeleteFile != null ? () => onDeleteFile(file) : () => 0 }];
     } else {
-      return [downloadOption, followOption, detailOption];
+      return [downloadOption, followOption, detailOption, { ...deleteOption, onClick: onDeleteDirectory != null ? () => onDeleteDirectory(file) : () => 0 }];
     }
   };
 
@@ -97,6 +139,8 @@ export default function FileTree({
     <>
       <FileTreeActionBar
         onRefresh={() => (onRefresh != null ? onRefresh(path) : () => 0)}
+        onAddDirectory={() => (onCreateDirectory != null ? onCreateDirectory() : () => 0)}
+        onAddFile={() => (onCreateFile != null ? onCreateFile() : () => 0)}
       />
       {isLoading && (
         <CenterDiv sx={{ paddingTop: "10px" }}>
@@ -106,7 +150,7 @@ export default function FileTree({
       {!isLoading &&
         files.map((file) => (
           <TreeElement
-            key={file.id}
+            key={file.type == "directory" ? "d" + file.id : "f" + file.id}
             icon={
               file.type == "file" ? (
                 <DescriptionIcon color="secondary" />

@@ -5,7 +5,7 @@ import SplashBackground from "@component/SplashBackground/SplashBackground";
 import useApiMutation from "@hook/api/useApiMutation";
 import { TextField, Button } from "@mui/material";
 import { SyntheticEvent, useCallback, useRef } from "react";
-import AuthenticationRequestDTO from './../../api/dto/request/authentication/AuthenticationRequestDTO';
+import AuthenticationRequestDTO from '../../api/dto/request/authentication/AuthenticationRequestDTO';
 import { useTranslation } from "react-i18next";
 
 export default function Login() {
