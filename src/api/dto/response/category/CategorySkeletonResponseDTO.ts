@@ -1,9 +1,7 @@
-import DocumentResponseDTO from "../document/DocumentResponseDTO";
-
 /**
  * Represents a category skeleton (exclude files).
  */
-export default class CategoryResponseDTO {
+export default class CategorySkeletonResponseDTO {
 
   /**
    * @param id                  The file's ID.

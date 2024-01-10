@@ -1,7 +1,7 @@
 /**
  * Represents a document skeleton (exclude category and content).
  */
-export default class DocumentResponseDTO {
+export default class DocumentSkeletonResponseDTO {
 
   /**
    * @param id              The file's ID.

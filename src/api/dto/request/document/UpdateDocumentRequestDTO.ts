@@ -15,7 +15,7 @@ export default class GetDocumentRequestDTO {
     public readonly title: string,
     public readonly description: string,
     public readonly author: string,
-    public readonly category: string,
+    public readonly category: number,
   ) {}
   
 }

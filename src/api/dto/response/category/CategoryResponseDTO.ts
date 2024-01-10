@@ -1,4 +1,3 @@
-import DocumentResponseDTO from "../document/DocumentResponseDTO";
 import DocumentSkeletonResponseDTO from "../document/DocumentSkeletonResponseDTO";
 import CategorySkeletonResponseDTO from "./CategorySkeletonResponseDTO";
 
