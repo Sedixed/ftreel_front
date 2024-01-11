@@ -75,6 +75,14 @@ export type FileTreeProps = {
    * @param newPath The new file tree path.
    */
   onBack?: (newPath: string) => void;
+
+  /**
+   * Callabcks called when the downlaod button is clicked.
+   * 
+   * @param file The file to download.
+   */
+  onDownloadFile?: (file: File) => void;
+  onDownloadDirectory?: (file: File) => void;
 };
 
 /**
@@ -133,6 +141,8 @@ export default function FileTree({
   onDeleteDirectory,
   onDeleteFile,
   onBack,
+  onDownloadFile,
+  onDownloadDirectory,
 }: FileTreeProps) {
   const getContextMenuByFile = (file: File) => {
     const downloadOption = { label: "Télécharger", icon: <DownloadIcon /> };
@@ -154,14 +164,14 @@ export default function FileTree({
 
     if (file.type == "file") {
       return [
-        downloadOption, 
+        { ...downloadOption, onClick: onDownloadFile != null ? () => onDownloadFile(file) : () => 0 }, 
         { ...updateOption, onClick: onUpdateFile != null ? () => onUpdateFile(file) : () => 0 },
         { ...deleteOption, onClick: onDeleteFile != null ? () => onDeleteFile(file) : () => 0 },
         detailOption,
       ];
     } else {
       return [
-        downloadOption, 
+        { ...downloadOption, onClick: onDownloadDirectory != null ? () => onDownloadDirectory(file) : () => 0 },
         followOption, 
         { ...updateOption, onClick: onUpdateDirectory != null ? () => onUpdateDirectory(file) : () => 0 },
         { ...deleteOption, onClick: onDeleteDirectory != null ? () => onDeleteDirectory(file) : () => 0 },
@@ -177,7 +187,11 @@ export default function FileTree({
         onAddDirectory={onCreateDirectory}
         onAddFile={onCreateFile}
         onBack={() => {
-          let newPath = path == "/" ? ["/"] : path.split("/")
+          if (path == "/") {
+            return "/";
+          }
+          
+          let newPath = path.split("/")
           if (path !== "/") {
             newPath.pop();
             newPath.pop();
