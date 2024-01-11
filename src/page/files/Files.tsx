@@ -266,9 +266,10 @@ export default function Files() {
           onBack={(newPath) => updateSearchParams("path", newPath)}
           onDownloadDirectory={setDirectoryToDownload}
           onDownloadFile={setFileToDownload}
-          enableAlterFileOrDirectory={containsAdmin}
           onFollow={subscribeCategory}
           onUnfollow={unsubscribeCategory}
+          enableAlterFileOrDirectory={containsAdmin}
+          enableCreateFile={true}
         />
       </Box>
       { category && 

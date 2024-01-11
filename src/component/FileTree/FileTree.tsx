@@ -107,6 +107,11 @@ export type FileTreeProps = {
   enableAlterFileOrDirectory?: boolean;
 
   /**
+   * Boolean that indicate if the buttons to create a file.
+   */
+  enableCreateFile?: boolean;
+
+  /**
    * Indicates if the file tree should have a back button or not (default: true).
    */
   enableBackButton?: boolean;
@@ -191,6 +196,7 @@ export default function FileTree({
   onDownloadFile,
   onDownloadDirectory,
   enableAlterFileOrDirectory,
+  enableCreateFile,
   enableBackButton,
   customizeContextMenu
 }: FileTreeProps) {
@@ -276,7 +282,8 @@ export default function FileTree({
 
           return onBack != null ? onBack(newPath[0] == "" ? "/" : newPath[0] + "/") : () => 0
         }}
-        enableCreateFileOrDirectory={enableAlterFileOrDirectory}
+        enableCreateFile={enableCreateFile}
+        enableCreateDirectory={enableAlterFileOrDirectory}
         enableBackButton={enableBackButton ?? true}
       />
       {isLoading && (
