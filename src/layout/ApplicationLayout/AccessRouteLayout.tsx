@@ -1,12 +1,20 @@
 import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
 import useGetLogginAdmin from "@hook/user/useGetLogginAdmin";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export function AccessRouteLayout() {
+  const location = useLocation();
   const { isLoggedIn, containsAdmin }= useGetLogginAdmin();
 
+  const [pathname, setPathname] = useState('');
+
+  useEffect(() => {
+    setPathname(location.pathname);
+  }, [location]);
+
   const renderContent = () => {
-    switch (location.pathname) {
+    switch (pathname) {
       case ApplicationRoute.AUTHENTICATION:
         return !isLoggedIn ? <Outlet /> : <Navigate to={ApplicationRoute.HOME} />;
       case ApplicationRoute.FILES:
