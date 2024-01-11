@@ -12,6 +12,7 @@ import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { useTranslation } from "react-i18next";
 
 /**
  * The file tree properties.
@@ -193,17 +194,20 @@ export default function FileTree({
   enableBackButton,
   customizeContextMenu
 }: FileTreeProps) {
+  // Translation
+  const { t } = useTranslation()
+
   const getContextMenuByFile = (file: File) => {
-    const downloadOption = { label: "Télécharger", icon: <DownloadIcon /> };
+    const downloadOption = { label: t("downloadLabel"), icon: <DownloadIcon /> };
     // TODO Corriger le problèmes des boutons où il faut cliquer sur le TEXTE
     // pour qu'ils fonctionnent
     const detailOption = {
-      label: "Détails",
+      label: t("detailsLabel"),
       icon: <InfoIcon />,
       onClick: onDetails != null ? () => onDetails(file) : () => 0,
     };
     const followOption = { 
-      label: file.followed ? "Ne plus suivre" : "Suivre", 
+      label: file.followed ? t("unfollowLabel") : t("followLabel"), 
       icon: file.followed ? <BookmarkRemoveIcon /> : <BookmarkAddIcon />, 
       onClick: file.followed 
         ? onUnfollow != null ? () => onUnfollow(file) : () => 0 
@@ -212,12 +216,12 @@ export default function FileTree({
 
     if (enableAlterFileOrDirectory) {
       const updateOption = {
-        label: "Modifier",
+        label: t("updateFileLabel"),
         icon: <EditIcon />,
         onClick: onUpdateFile != null ? () => onUpdateFile(file) : () => 0,
       };
       const deleteOption = {
-        label: "Supprimer", 
+        label: t("deleteFileLabel"), 
         icon: <DeleteIcon />,
       };
       if (file.type == "file") {

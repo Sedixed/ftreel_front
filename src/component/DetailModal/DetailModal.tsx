@@ -1,4 +1,5 @@
 import { File } from "@component/FileTree/FileTree"
+import { useTranslation } from "react-i18next"
 
 /**
  * DetailModal properties.
@@ -14,6 +15,9 @@ export type DetailModalProps = {
  * Modal showing a file details.
  */
 export default function DetailModal({ file }: DetailModalProps) {
+  // Translation
+  const { t } = useTranslation();
+
   if (file == null) {
     return <></>
   }
@@ -22,13 +26,13 @@ export default function DetailModal({ file }: DetailModalProps) {
     <>
       <h2>{file.name} (ID: {file.id})</h2>
       <p>
-        Auteur : {file.author}
+        {t("detailAuthor")} : {file.author}
       </p>
       <p>
-        Description : {file.description}
+      {t("detailDescription")} : {file.description}
       </p>
       <p>
-        Extension : {file.extension}
+      {t("detailExtension")} : {file.extension}
       </p>
     </>
   )

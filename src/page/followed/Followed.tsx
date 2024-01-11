@@ -7,8 +7,12 @@ import useApiMutation from "@hook/api/useApiMutation";
 import useSnackbar from "@hook/snackbar/useSnackbar";
 import { Box } from "@mui/material";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function Followed() {
+  // Translation
+  const { t } = useTranslation();
+
   // Error snackbar
   const { show, snackbar: errorSnackbar } = useSnackbar("Impossible de récupérer les dossiers suivis.", "warning")
 
@@ -52,7 +56,7 @@ export default function Followed() {
           padding: "0 50px",
         }}
       >
-        <h1>Suivis</h1>
+        <h1>{t("sidebarFollowed")}</h1>
         <FileTree
           path={""}
           files={followedCategories}
