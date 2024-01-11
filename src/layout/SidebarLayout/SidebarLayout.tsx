@@ -19,6 +19,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { ReactNode, useMemo } from "react";
 import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
 import { useTranslation } from "react-i18next";
+import useGetLogginAdmin from "@hook/user/useGetLogginAdmin";
 
 /**
  * Describe an element to place inside the sidebar.
@@ -54,6 +55,7 @@ type SidebarElement = {
  * Layout adding a sidebar at the left of its childrens.
  */
 export default function SidebarLayout() {
+  const { containsAdmin } = useGetLogginAdmin();
   const { t } = useTranslation();
   const { i18n } = useTranslation();
   const location = useLocation();
@@ -81,12 +83,16 @@ export default function SidebarLayout() {
         icon: <BookmarkIcon />,
         label: t('sidebarFollowed'),
       },
-      {
-        key: "validation",
-        href: ApplicationRoute.VALIDATION,
-        icon: <ValidationIcon />,
-        label: t('sidebarValidation'),
-      },
+      ...(containsAdmin
+        ? [
+            {
+              key: "validation",
+              href: ApplicationRoute.VALIDATION,
+              icon: <ValidationIcon />,
+              label: t('sidebarValidation'),
+            },
+          ]
+        : []),
       {
         key: "logout",
         href: ApplicationRoute.LOGOUT,

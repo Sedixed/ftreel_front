@@ -20,7 +20,7 @@ export function AccessRouteLayout() {
       case ApplicationRoute.FILES:
         return isLoggedIn ? <Outlet /> : <Navigate to={ApplicationRoute.HOME} />;
       case ApplicationRoute.USERS:
-          return isLoggedIn && containsAdmin ? <Outlet /> : <Navigate to={ApplicationRoute.HOME} />;
+        return isLoggedIn && containsAdmin ? <Outlet /> : <Navigate to={ApplicationRoute.HOME} />;
       case ApplicationRoute.VALIDATION:
         return isLoggedIn && containsAdmin ? <Outlet /> : <Navigate to={ApplicationRoute.HOME} />;
       case ApplicationRoute.FOLLOWED:
