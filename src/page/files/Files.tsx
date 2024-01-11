@@ -192,7 +192,7 @@ export default function Files() {
     });
     
     // Add all the files
-    const files: Base64FileInfoTree[] = await Promise.all(tree.childrenDocuments.map(async (file): Base64FileInfoTree => {
+    const files: Base64FileInfoTree[] = await Promise.all(tree.childrenDocuments.map(async (file): Promise<Base64FileInfoTree> => {
       const fileResponse = await fetch(
         buildURLWithQueryParams(APIEndpoint.GET_DOCUMENT.toApiUrl(), { id: `${file.id}` }), 
         {
