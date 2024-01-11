@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import FolderIcon from "@mui/icons-material/Folder";
+import ValidationIcon from "@mui/icons-material/DoneOutline";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { ReactNode, useMemo } from "react";
@@ -73,6 +74,12 @@ export default function SidebarLayout() {
         href: ApplicationRoute.FILES,
         icon: <FolderIcon />,
         label: t('sidebarFiles'),
+      },
+      {
+        key: "validation",
+        href: ApplicationRoute.VALIDATION,
+        icon: <ValidationIcon />,
+        label: t('sidebarValidation'),
       },
       {
         key: "followed",
