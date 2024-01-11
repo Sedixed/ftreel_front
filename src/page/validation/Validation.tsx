@@ -54,6 +54,17 @@ export default function ValidationPage() {
 
   // API mutations for delete
   const { 
+    mutate: validateDocument,
+    reset: resetValidateDocument,
+    isSuccess: validateDocumentSucess,
+  } = useApiMutation(APIEndpoint.VALIDATE_DOCUMENT, null, false, { dataAsQueryParam: true });
+  if (validateDocumentSucess) {
+    refetch()
+    resetValidateDocument()
+  }
+
+  // API mutations for delete
+  const { 
     mutate: deleteDocument,
     reset: resetDeleteDocument,
     isSuccess: deletedDocumentSucess,
@@ -102,6 +113,7 @@ export default function ValidationPage() {
             files={fileGridFiles}
             onRefresh={() => refetch()}
             onDetails={setDetailPanelContent}
+            onValidate={(file) => validateDocument({id: file.id})}
             onDeleteFile={(file) => deleteDocument({id: file.id})}
             isLoading={isLoading}
             onDownloadFile={setFileToDownload}

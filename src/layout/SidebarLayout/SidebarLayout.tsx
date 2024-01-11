@@ -76,16 +76,16 @@ export default function SidebarLayout() {
         label: t('sidebarFiles'),
       },
       {
-        key: "validation",
-        href: ApplicationRoute.VALIDATION,
-        icon: <ValidationIcon />,
-        label: t('sidebarValidation'),
-      },
-      {
         key: "followed",
         href: ApplicationRoute.FOLLOWED,
         icon: <BookmarkIcon />,
         label: t('sidebarFollowed'),
+      },
+      {
+        key: "validation",
+        href: ApplicationRoute.VALIDATION,
+        icon: <ValidationIcon />,
+        label: t('sidebarValidation'),
       },
       {
         key: "logout",

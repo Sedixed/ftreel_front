@@ -6,6 +6,7 @@ import FileTreeActionBar from "@component/FileTree/FileTreeActionBar/FileTreeAct
 import CenterDiv from "@component/CenterDiv/CenterDiv";
 import { CircularProgress } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import DoneIcon from '@mui/icons-material/Done';
 
 /**
  * The file grid properties.
@@ -24,7 +25,7 @@ export type FileGridProps = {
   /**
    * Callback to call when the refresh button is clicked.
    */
-  onRefresh?: (path: string) => void;
+  onRefresh?: () => void;
 
   /**
    * Callback to call when the detail button is clicked in a file context menu.
@@ -32,6 +33,13 @@ export type FileGridProps = {
    * @param file The file we want to get the details.
    */
   onDetails?: (file: File) => void;
+
+  /**
+   * Callback to call when the validate button is clicked in a file context menu.
+   *
+   * @param file The file we want to validate.
+   */
+  onValidate?: (file: File) => void;
 
   /**
    * Callback called when the delete button is clicked.
@@ -98,17 +106,21 @@ export default function FileGrid({
   isLoading,
   onRefresh,
   onDetails,
+  onValidate,
   onDeleteFile,
   onDownloadFile,
 }: FileGridProps) {
   const getContextMenuByFile = (file: File) => {
     const downloadOption = { label: "Télécharger", icon: <DownloadIcon /> };
-    // TODO Corriger le problèmes des boutons où il faut cliquer sur le TEXTE
-    // pour qu'ils fonctionnent
     const detailOption = {
       label: "Détails",
       icon: <InfoIcon />,
       onClick: onDetails != null ? () => onDetails(file) : () => 0,
+    };
+    const validateOption = {
+      label: "Valider",
+      icon: <DoneIcon />,
+      onClick: onValidate != null ? () => onValidate(file) : () => 0,
     };
     const deleteOption = {
       label: "Supprimer", 
@@ -116,16 +128,17 @@ export default function FileGrid({
     };
 
     return [
+      detailOption,
+      validateOption,
       { ...downloadOption, onClick: onDownloadFile != null ? () => onDownloadFile(file) : () => 0 }, 
       { ...deleteOption, onClick: onDeleteFile != null ? () => onDeleteFile(file) : () => 0 },
-      detailOption,
     ];
   };
 
   return (
     <>
       <FileTreeActionBar
-        onRefresh={() => (onRefresh)}
+        onRefresh={() => (onRefresh != null ? onRefresh() : () => 0)}
         enableCreateFileOrDirectory={false}
         enableBackButton={false}
       />
