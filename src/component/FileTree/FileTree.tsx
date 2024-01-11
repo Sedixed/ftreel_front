@@ -304,6 +304,9 @@ export default function FileTree({
                     path: file.path + "/",
                   })
             }
+            sx={{
+              cursor: file.type == "directory" ? "pointer" : "auto"
+            }}
           />
         ))}
     </>
