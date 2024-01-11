@@ -101,6 +101,14 @@ export type FileTreeProps = {
   onDownloadDirectory?: (file: File) => void;
 
   /**
+   * Callback called when the filter button is clicked
+   * 
+   * @param filterType  The type of the filter to apply
+   * @param filterValue The filter value.
+   */
+  onFilter?: (filterType: string, filterValue: string) => void;
+
+  /**
    * Boolean that indicate if the buttons to create, delete or update
    * a file should be enabled.
    */
@@ -110,6 +118,11 @@ export type FileTreeProps = {
    * Indicates if the file tree should have a back button or not (default: true).
    */
   enableBackButton?: boolean;
+
+  /**
+   * Enables the filter bar (default: true).
+   */
+  enableFilterBar?: boolean;
 
   /**
    * Callback called to customize the files context menu items.
@@ -188,10 +201,12 @@ export default function FileTree({
   onBack,
   onFollow,
   onUnfollow,
+  onFilter,
   onDownloadFile,
   onDownloadDirectory,
   enableAlterFileOrDirectory,
   enableBackButton,
+  enableFilterBar,
   customizeContextMenu
 }: FileTreeProps) {
   // Translation
@@ -276,8 +291,10 @@ export default function FileTree({
 
           return onBack != null ? onBack(newPath[0] == "" ? "/" : newPath[0] + "/") : () => 0
         }}
+        onFilter={onFilter}
         enableCreateFileOrDirectory={enableAlterFileOrDirectory}
         enableBackButton={enableBackButton ?? true}
+        enableFilterBar={enableFilterBar ?? true}
       />
       {isLoading && (
         <CenterDiv sx={{ paddingTop: "10px" }}>

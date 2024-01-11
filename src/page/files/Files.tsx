@@ -17,7 +17,7 @@ import CategorySkeletonResponseDTO from "@api/dto/response/category/CategorySkel
 import DocumentSkeletonResponseDTO from "@api/dto/response/document/DocumentSkeletonResponseDTO";
 import { Base64FileInfoTree, downloadBase64, zipFilesAndDownload } from "@utils/download-utils";
 import { useQueryClient } from "react-query";
-import { buildURLWithQueryParams } from "@utils/url-utils";
+import { buildSearchParamsNullSafe, buildURLWithQueryParams } from "@utils/url-utils";
 import CategoryResponseDTO from "@api/dto/response/category/CategoryResponseDTO";
 import DocumentResponseDTO from "@api/dto/response/document/DocumentResponseDTO";
 import useGetLogginAdmin from "@hook/user/useGetLogginAdmin";
@@ -80,18 +80,27 @@ export default function Files() {
   const currentTreePath = currentSearchParams.get("path") ?? "/";
 
   // Send an API request to get the current files
-  const filesRequestSearchParam = new URLSearchParams();
-  filesRequestSearchParam.append("path", currentTreePath);
+  const [fetchFilter, setFetchFilter] = useState({
+    filter: "title",
+    value: "",
+  })
+  const fetchSearchParams = buildSearchParamsNullSafe({
+    path: currentTreePath,
+    ...fetchFilter
+  });
   const {
     data: category,
     isLoading,
     refetch,
   } = useApi(APIEndpoint.GET_CATEGORY_WITH_PATH, undefined, {
     queryKey: "/files" + currentTreePath,
-    searchParams: filesRequestSearchParam,
+    searchParams: fetchSearchParams,
     staleTime: 60000,
     onError: showError,
   });
+  useEffect(() => {
+    refetch();
+  }, [fetchFilter]);
 
   // Filter files to match them with the FileTree "file" property
   let fileTreeFiles: File[] = [];
@@ -234,6 +243,11 @@ export default function Files() {
     refetch();
   }, [isUnfollowSuccess, isFollowSuccess])
 
+  // Filter handling
+  const onFilter = (type: string, value: string) => {
+    setFetchFilter({ filter: type, value: value })
+  }
+
   return (
     <>
       <Box
@@ -269,6 +283,7 @@ export default function Files() {
           enableAlterFileOrDirectory={containsAdmin}
           onFollow={subscribeCategory}
           onUnfollow={unsubscribeCategory}
+          onFilter={onFilter}
         />
       </Box>
       { category && 
