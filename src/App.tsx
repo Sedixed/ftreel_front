@@ -13,6 +13,7 @@ import { LanguageSwitcher } from "@component/LanguageSwitcher/LanguageSwitcher";
 import Logout from "@page/user/Logout";
 import { AccessRouteLayout } from "layout/ApplicationLayout/AccessRouteLayout";
 import Users from "@page/user/Users";
+import Validation from "@page/validation/Validation";
 
 function App() {
   // Defining all the application routes
@@ -54,7 +55,7 @@ function App() {
             },
             {
               path: ApplicationRoute.VALIDATION,
-              element: <Users />
+              element: <Validation />
             }
           ]
         }

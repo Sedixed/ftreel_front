@@ -33,21 +33,27 @@ export default function Home() {
         <ApplicationTitle>FTreel</ApplicationTitle>
         <ApplicationSubtitle>{t('homeSlogan')}</ApplicationSubtitle>
         <Box marginTop={5}>
-          <Button variant="contained" disabled={!isLoggedIn} onClick={onAccessButtonClick} 
-          style={{ zIndex: "1", width: "45%", marginRight: "5px" }}>
-            {t('homeAccess')}
-          </Button>
           {
             !isLoggedIn &&
-            <Button variant="outlined" onClick={onLoginButtonClick} 
-            style={{ zIndex: "1", width: "45%" }}>
+            <Button variant="contained" disabled onClick={onAccessButtonClick} style={{ zIndex: "1", width: "45%", marginRight: "5px" }}>
+              {t('homeAccess')}
+            </Button>
+          }
+          {
+            isLoggedIn &&
+            <Button variant="contained" onClick={onAccessButtonClick} style={{ zIndex: "1", width: "45%", marginRight: "5px" }}>
+              {t('homeAccess')}
+            </Button>
+          }
+          {
+            !isLoggedIn &&
+            <Button variant="outlined" onClick={onLoginButtonClick} style={{ zIndex: "1", width: "45%" }}>
               {t('homeLogin')}
             </Button>
           }
           {
             isLoggedIn &&
-            <Button variant="outlined" onClick={onLogoutButtonClick} 
-            style={{ zIndex: "1", width: "45%" }}>
+            <Button variant="outlined" onClick={onLogoutButtonClick} style={{ zIndex: "1", width: "45%" }}>
               {t('homeLogout')}
             </Button>
           }
