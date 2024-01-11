@@ -63,6 +63,7 @@ export default function Followed() {
           isLoading={isLoading}
           onRefresh={() => refetch()}
           enableBackButton={false}
+          enableFilterBar={false}
           customizeContextMenu={(_file, menu) => menu.filter(item => item.label != "Télécharger")}
           onUnfollow={unsubscribeCategory}
           onDetails={setDetailPanelContent}
