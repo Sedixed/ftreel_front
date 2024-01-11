@@ -83,6 +83,12 @@ export type FileTreeProps = {
    */
   onDownloadFile?: (file: File) => void;
   onDownloadDirectory?: (file: File) => void;
+
+  /**
+   * Boolean that indicate if the buttons to create, delete or update
+   * a file should be enabled.
+   */
+  enableAlterFileOrDirectory?: boolean;
 };
 
 /**
@@ -143,40 +149,58 @@ export default function FileTree({
   onBack,
   onDownloadFile,
   onDownloadDirectory,
+  enableAlterFileOrDirectory,
 }: FileTreeProps) {
   const getContextMenuByFile = (file: File) => {
     const downloadOption = { label: "Télécharger", icon: <DownloadIcon /> };
+    // TODO Corriger le problèmes des boutons où il faut cliquer sur le TEXTE
+    // pour qu'ils fonctionnent
     const detailOption = {
       label: "Détails",
       icon: <InfoIcon />,
       onClick: onDetails != null ? () => onDetails(file) : () => 0,
     };
-    const updateOption = {
-      label: "Modifier",
-      icon: <EditIcon />,
-      onClick: onUpdateFile != null ? () => onUpdateFile(file) : () => 0,
-    };
     const followOption = { label: "Suivre", icon: <BookmarkAddIcon /> };
-    const deleteOption = {
-      label: "Supprimer", 
-      icon: <DeleteIcon />,
-    };
 
-    if (file.type == "file") {
-      return [
-        { ...downloadOption, onClick: onDownloadFile != null ? () => onDownloadFile(file) : () => 0 }, 
-        { ...updateOption, onClick: onUpdateFile != null ? () => onUpdateFile(file) : () => 0 },
-        { ...deleteOption, onClick: onDeleteFile != null ? () => onDeleteFile(file) : () => 0 },
-        detailOption,
-      ];
+    if (enableAlterFileOrDirectory) {
+      const updateOption = {
+        label: "Modifier",
+        icon: <EditIcon />,
+        onClick: onUpdateFile != null ? () => onUpdateFile(file) : () => 0,
+      };
+      const deleteOption = {
+        label: "Supprimer", 
+        icon: <DeleteIcon />,
+      };
+      if (file.type == "file") {
+        return [
+          { ...downloadOption, onClick: onDownloadFile != null ? () => onDownloadFile(file) : () => 0 }, 
+          { ...updateOption, onClick: onUpdateFile != null ? () => onUpdateFile(file) : () => 0 },
+          { ...deleteOption, onClick: onDeleteFile != null ? () => onDeleteFile(file) : () => 0 },
+          detailOption,
+        ];
+      } else {
+        return [
+          { ...downloadOption, onClick: onDownloadDirectory != null ? () => onDownloadDirectory(file) : () => 0 },
+          followOption, 
+          { ...updateOption, onClick: onUpdateDirectory != null ? () => onUpdateDirectory(file) : () => 0 },
+          { ...deleteOption, onClick: onDeleteDirectory != null ? () => onDeleteDirectory(file) : () => 0 },
+          detailOption,
+        ];
+      }
     } else {
-      return [
-        { ...downloadOption, onClick: onDownloadDirectory != null ? () => onDownloadDirectory(file) : () => 0 },
-        followOption, 
-        { ...updateOption, onClick: onUpdateDirectory != null ? () => onUpdateDirectory(file) : () => 0 },
-        { ...deleteOption, onClick: onDeleteDirectory != null ? () => onDeleteDirectory(file) : () => 0 },
-        detailOption,
-      ];
+      if (file.type == "file") {
+        return [
+          { ...downloadOption, onClick: onDownloadFile != null ? () => onDownloadFile(file) : () => 0 }, 
+          detailOption,
+        ];
+      } else {
+        return [
+          { ...downloadOption, onClick: onDownloadDirectory != null ? () => onDownloadDirectory(file) : () => 0 },
+          followOption,
+          detailOption,
+        ];
+      }
     }
   };
 
@@ -200,6 +224,7 @@ export default function FileTree({
 
           return onBack != null ? onBack(newPath[0] == "" ? "/" : newPath[0] + "/") : () => 0
         }}
+        enableCreateFileOrDirectory={enableAlterFileOrDirectory}
       />
       {isLoading && (
         <CenterDiv sx={{ paddingTop: "10px" }}>

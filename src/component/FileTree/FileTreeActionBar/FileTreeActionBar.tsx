@@ -27,6 +27,11 @@ export type TreeActionBarProps = {
    * Callback called when the go back button is clicked.
    */
   onBack?: () => void;
+
+  /**
+   * Boolean that indicate if the buttons to create file should be enabled.
+   */
+  enableCreateFileOrDirectory?: boolean;
 };
 
 /**
@@ -37,6 +42,7 @@ export default function TreeActionBar({
   onAddFile,
   onRefresh,
   onBack,
+  enableCreateFileOrDirectory,
 }: TreeActionBarProps) {
 
   return (
@@ -47,18 +53,23 @@ export default function TreeActionBar({
             <ArrowBackIosNewIcon color="primary" />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Créer un fichier">
-          <IconButton onClick={onAddFile}>
-            <NoteAddIcon color="primary" />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Créer un dossier">
-          <IconButton
-            onClick={onAddDirectory}
-          >
-            <CreateNewFolderIcon color="primary" />
-          </IconButton>
-        </Tooltip>
+        {
+          enableCreateFileOrDirectory &&
+          <>
+            <Tooltip title="Créer un fichier">
+              <IconButton onClick={onAddFile}>
+                <NoteAddIcon color="primary" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Créer un dossier">
+              <IconButton
+                onClick={onAddDirectory}
+              >
+                <CreateNewFolderIcon color="primary" />
+              </IconButton>
+            </Tooltip>
+          </>
+        }
         <Tooltip title="Rafraîchir">
           <IconButton onClick={onRefresh != null ? () => onRefresh() : () => 0}>
             <RefreshIcon color="primary" />
