@@ -4,7 +4,7 @@ import APIEndpoint from "@api/endpoint/APIEndpoint";
 import { useSearchParams } from "react-router-dom";
 import FileTree, { File } from "@component/FileTree/FileTree";
 import useSnackbar from "@hook/snackbar/useSnackbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import CenteredModal from "@component/CenteredModal/CenteredModal";
 import DetailModal from "@component/DetailModal/DetailModal";
@@ -15,11 +15,18 @@ import UpdateFileModal from "@component/UpdateFileModal/UpdateFileModal";
 import UpdateDirectoryModal from "@component/UpdateDirectoryModal/UpdateDirectoryModal";
 import CategorySkeletonResponseDTO from "@api/dto/response/category/CategorySkeletonResponseDTO";
 import DocumentSkeletonResponseDTO from "@api/dto/response/document/DocumentSkeletonResponseDTO";
+import { Base64FileInfoTree, downloadBase64, zipFilesAndDownload } from "@utils/download-utils";
+import { useQueryClient } from "react-query";
+import { buildURLWithQueryParams } from "@utils/url-utils";
+import CategoryResponseDTO from "@api/dto/response/category/CategoryResponseDTO";
+import DocumentResponseDTO from "@api/dto/response/document/DocumentResponseDTO";
 
 // TODO :
 // - Ajouter chemin courant
 export default function Files() {
   const { t } = useTranslation();
+
+  const queryClient = useQueryClient();
 
   // State of the detail panel
   const [detailPanelContent, setDetailPanelContent] = useState<File | null>(
@@ -127,6 +134,78 @@ export default function Files() {
     resetDeleteCategory()
   }
 
+  // Download file handling
+  const [fileToDownload, setFileToDownload] = useState<File | null>(null)
+  const { data: downloadedFile, refetch: refetchDownloadFile } = useApi(
+    APIEndpoint.GET_DOCUMENT, 
+    { id: fileToDownload?.id ?? 0 }, 
+    { enabled: false, queryKey: "downloadedFile" }
+  );
+  useEffect(() => {
+    if (fileToDownload != null) {
+      refetchDownloadFile();
+    }
+  }, [fileToDownload]);
+  useEffect(() => {
+    if (downloadedFile != null) {
+      downloadBase64({
+        base64: downloadedFile.base64, 
+        mime: downloadedFile.contentType, 
+        name: downloadedFile.title,
+        type: "file",
+      });
+      queryClient.removeQueries("downloadedFile")
+      setFileToDownload(null)
+    }
+  }, [downloadedFile])
+
+  // Download directory handling
+  const [directoryToDownload, setDirectoryToDownload] = useState<File | null>(null);
+  useEffect(() => {
+    if (directoryToDownload != null) {
+      buildBase64Tree(directoryToDownload).then(tree => zipFilesAndDownload(tree));
+      setDirectoryToDownload(null);
+    }
+  }, [directoryToDownload]);
+  const buildBase64Tree = async (directory: File): Promise<Base64FileInfoTree[]> => {
+    // Extract current directory tree
+    const response = await fetch(
+      buildURLWithQueryParams(APIEndpoint.GET_CATEGORY.toApiUrl(), { id: `${directory.id}` }), 
+      {
+        credentials: "include"
+      }
+    )
+    const tree = await response.json() as CategoryResponseDTO;
+    
+    // Recursively search all the files of directories
+    const base64categories: Base64FileInfoTree[] = [];
+    const subcategories = await Promise.all(tree.childrenCategories.map(async category => {
+      return await buildBase64Tree({
+        id: category.id, 
+        name: category.name, 
+        path: directory.path + category.name + "/",
+        type: "directory"
+      });
+    }));
+    subcategories.forEach(subcategory => {
+      base64categories.push(...subcategory);
+    });
+    
+    // Add all the files
+    const files: Base64FileInfoTree[] = await Promise.all(tree.childrenDocuments.map(async (file): Base64FileInfoTree => {
+      const fileResponse = await fetch(
+        buildURLWithQueryParams(APIEndpoint.GET_DOCUMENT.toApiUrl(), { id: `${file.id}` }), 
+        {
+          credentials: "include"
+        }
+      )
+      const fileWithContent = await fileResponse.json() as DocumentResponseDTO;
+      return { name: file.title, type: "file", base64: fileWithContent.base64, mime: file.extension, childrens: [] }
+    }));
+
+    return [{ name: directory.name, type: "directory", childrens: [ ...base64categories, ...files ] }]
+  }
+
   return (
     <>
       <Box
@@ -157,6 +236,8 @@ export default function Files() {
           onDeleteFile={(file) => deleteDocument({id: file.id})}
           isLoading={isLoading}
           onBack={(newPath) => updateSearchParams("path", newPath)}
+          onDownloadDirectory={setDirectoryToDownload}
+          onDownloadFile={setFileToDownload}
         />
       </Box>
       { category && 
