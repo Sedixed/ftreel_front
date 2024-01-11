@@ -9,6 +9,7 @@ import CategoryResponseDTO from "@api/dto/response/category/CategoryResponseDTO"
 import CreateCategoryRequestDTO from "@api/dto/request/category/CreateCategoryRequestDTO";
 import UpdateCategoryRequestDTO from "@api/dto/request/category/UpdateCategoryRequestDTO";
 import GetCategoryWithPathRequestDTO from "@api/dto/request/category/GetCategoryWithPathRequestDTO";
+import FollowedCategoryResponseDTO from "@api/dto/response/category/FollowedCategoryResponseDTO";
 
 /**
  * Class containing the API endpoints metadata (URI, request type...). This class also contains all the existing API 
@@ -30,6 +31,7 @@ export default class APIEndpoint<T, U> {
   public static readonly CREATE_CATEGORY = new APIEndpoint("/Category/CreateCategory", "POST", CreateCategoryRequestDTO, CategoryResponseDTO);
   public static readonly UPDATE_CATEGORY = new APIEndpoint("/Category/UpdateCategory", "PATCH", UpdateCategoryRequestDTO, CategoryResponseDTO);
   public static readonly DELETE_CATEGORY = new APIEndpoint("/Category/DeleteCategory/{id}", "DELETE", null, null);
+  public static readonly GET_FOLLOWED_CATEGORIES = new APIEndpoint("/Category/GetFollowedCategories", "GET", null, FollowedCategoryResponseDTO);
 
   public static readonly GET_DOCUMENT = new APIEndpoint("/Document/GetDocument/{id}", "GET", null, DocumentResponseDTO);
   public static readonly GET_ALL_DOCUMENTS = new APIEndpoint("/Document/GetAllDocuments", "GET", null, Array<DocumentResponseDTO>);

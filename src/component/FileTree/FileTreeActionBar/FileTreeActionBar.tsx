@@ -32,6 +32,11 @@ export type TreeActionBarProps = {
    * Boolean that indicate if the buttons to create file should be enabled.
    */
   enableCreateFileOrDirectory?: boolean;
+
+  /**
+   * Enables the back button (default: true).
+   */
+  enableBackButton?: boolean;
 };
 
 /**
@@ -43,16 +48,20 @@ export default function TreeActionBar({
   onRefresh,
   onBack,
   enableCreateFileOrDirectory,
+  enableBackButton
 }: TreeActionBarProps) {
 
   return (
     <>
       <Box sx={{ borderBottom: "1px solid lightgray" }}>
-        <Tooltip title="Revenir en arrière">
-          <IconButton onClick={onBack}>
-            <ArrowBackIosNewIcon color="primary" />
-          </IconButton>
-        </Tooltip>
+        {
+          (enableBackButton ?? true)
+          && <Tooltip title="Revenir en arrière">
+            <IconButton onClick={onBack}>
+              <ArrowBackIosNewIcon color="primary" />
+            </IconButton>
+          </Tooltip>
+        }
         {
           enableCreateFileOrDirectory &&
           <>

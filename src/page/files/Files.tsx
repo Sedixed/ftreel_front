@@ -241,6 +241,7 @@ export default function Files() {
           onDownloadDirectory={setDirectoryToDownload}
           onDownloadFile={setFileToDownload}
           enableAlterFileOrDirectory={containsAdmin}
+          onFollow={(file) => console.log(file)}
         />
       </Box>
       { category && 

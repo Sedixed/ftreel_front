@@ -54,6 +54,13 @@ export type FileTreeProps = {
   onCreateDirectory?: () => void;
 
   /**
+   * Callback called when the subscribe button is clicked.
+   * 
+   * @param file The file to subscribe.
+   */
+  onFollow?: (file: File) => void;
+
+  /**
    * Callback called when the delete button is clicked.
    * 
    * @param file The file to delete
@@ -89,6 +96,11 @@ export type FileTreeProps = {
    * a file should be enabled.
    */
   enableAlterFileOrDirectory?: boolean;
+
+  /**
+   * Indicates if the file tree should have a back button or not (default: true).
+   */
+  enableBackButton?: boolean;
 };
 
 /**
@@ -147,9 +159,11 @@ export default function FileTree({
   onDeleteDirectory,
   onDeleteFile,
   onBack,
+  onFollow,
   onDownloadFile,
   onDownloadDirectory,
   enableAlterFileOrDirectory,
+  enableBackButton,
 }: FileTreeProps) {
   const getContextMenuByFile = (file: File) => {
     const downloadOption = { label: "Télécharger", icon: <DownloadIcon /> };
@@ -160,7 +174,11 @@ export default function FileTree({
       icon: <InfoIcon />,
       onClick: onDetails != null ? () => onDetails(file) : () => 0,
     };
-    const followOption = { label: "Suivre", icon: <BookmarkAddIcon /> };
+    const followOption = { 
+      label: "Suivre", 
+      icon: <BookmarkAddIcon />, 
+      onClick: onFollow != null ? () => onFollow(file) : () => 0 
+    };
 
     if (enableAlterFileOrDirectory) {
       const updateOption = {
@@ -225,6 +243,7 @@ export default function FileTree({
           return onBack != null ? onBack(newPath[0] == "" ? "/" : newPath[0] + "/") : () => 0
         }}
         enableCreateFileOrDirectory={enableAlterFileOrDirectory}
+        enableBackButton={enableBackButton ?? true}
       />
       {isLoading && (
         <CenterDiv sx={{ paddingTop: "10px" }}>
