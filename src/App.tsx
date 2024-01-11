@@ -19,6 +19,8 @@ import Validation from "@page/validation/Validation";
 // vérifier les traductions partout
 // problem après un upload de fichier, si on a déjà chargé la page validation,
 // le fichier non validé n'apparait pas de suite (faut regarder avec react query, querykey, invalidate)
+// ajouter la catégorie qui était suivi dans l'envoie de mail
+// changer l'affichage de détails qui est pas ouf
 
 function App() {
   // Defining all the application routes
