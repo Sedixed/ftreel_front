@@ -9,6 +9,7 @@ import FileTreeActionBar from "@component/FileTree/FileTreeActionBar/FileTreeAct
 import CenterDiv from "@component/CenterDiv/CenterDiv";
 import { CircularProgress } from "@mui/material";
 import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
+import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -61,6 +62,13 @@ export type FileTreeProps = {
   onFollow?: (file: File) => void;
 
   /**
+   * Callback called when the unsubscribe button is clicked.
+   * 
+   * @param file The file to unsubscribe.
+   */
+  onUnfollow?: (file: File) => void;
+
+  /**
    * Callback called when the delete button is clicked.
    * 
    * @param file The file to delete
@@ -101,6 +109,19 @@ export type FileTreeProps = {
    * Indicates if the file tree should have a back button or not (default: true).
    */
   enableBackButton?: boolean;
+
+  /**
+   * Callback called to customize the files context menu items.
+   * 
+   * @param   file The file to customize the context menu.
+   * @param   menu The current context menu of this file
+   * @returns      The new context menu.
+   */
+  customizeContextMenu?: (file: File, menu: { onClick: () => void, label: string, icon: JSX.Element}[]) => {
+    onClick: () => void;
+    label: string;
+    icon: JSX.Element;
+  }[]
 };
 
 /**
@@ -141,6 +162,11 @@ export type File = {
    * The file's extension.
    */
   extension?: string;
+
+  /**
+   * Indicates if the file is followed or not (default: false).
+   */
+  followed?: boolean;
 };
 
 /**
@@ -160,10 +186,12 @@ export default function FileTree({
   onDeleteFile,
   onBack,
   onFollow,
+  onUnfollow,
   onDownloadFile,
   onDownloadDirectory,
   enableAlterFileOrDirectory,
   enableBackButton,
+  customizeContextMenu
 }: FileTreeProps) {
   const getContextMenuByFile = (file: File) => {
     const downloadOption = { label: "Télécharger", icon: <DownloadIcon /> };
@@ -175,9 +203,11 @@ export default function FileTree({
       onClick: onDetails != null ? () => onDetails(file) : () => 0,
     };
     const followOption = { 
-      label: "Suivre", 
-      icon: <BookmarkAddIcon />, 
-      onClick: onFollow != null ? () => onFollow(file) : () => 0 
+      label: file.followed ? "Ne plus suivre" : "Suivre", 
+      icon: file.followed ? <BookmarkRemoveIcon /> : <BookmarkAddIcon />, 
+      onClick: file.followed 
+        ? onUnfollow != null ? () => onUnfollow(file) : () => 0 
+        : onFollow != null ? () => onFollow(file) : () => 0 
     };
 
     if (enableAlterFileOrDirectory) {
@@ -262,12 +292,12 @@ export default function FileTree({
               )
             }
             label={file.name}
-            contextOptions={getContextMenuByFile(file)}
+            contextOptions={customizeContextMenu != null ? customizeContextMenu(file, getContextMenuByFile(file)) : getContextMenuByFile(file)}
             href={
               file.type == "file"
                 ? undefined
                 : buildURL(ApplicationRoute.FILES, {
-                    path: path + file.name + "/",
+                    path: file.path + "/",
                   })
             }
           />

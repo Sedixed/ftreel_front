@@ -43,7 +43,6 @@ export default function Authentication() {
       navigate("/");
     } else if (isError && apiError) {
       setErrorMessage(apiError.message || 'Une erreur inconnue est survenue');
-      console.log(apiError);
     }
   }, [data, isError, apiError]);
 

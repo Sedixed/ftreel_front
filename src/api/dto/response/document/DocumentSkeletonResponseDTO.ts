@@ -16,6 +16,7 @@ export default class DocumentSkeletonResponseDTO {
     public readonly description: string,
     public readonly extension: string,
     public readonly author: string,
+    public readonly path: string,
   ) {}
 
 }

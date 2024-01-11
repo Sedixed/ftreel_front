@@ -61,6 +61,7 @@ export default function Files() {
       description: "",
       extension: "",
       author: "",
+      path: "",
     });
 
   // Setup selected directory for update
@@ -68,6 +69,7 @@ export default function Files() {
     useState<CategorySkeletonResponseDTO>({
       id: 0,
       name: "",
+      path: "",
     });
 
   // Get the current position in the file tree
@@ -99,15 +101,16 @@ export default function Files() {
         return {
           id: category.id,
           name: category.name,
-          path: currentTreePath,
+          path: category.path,
           type: "directory",
+          followed: category.subscribed
         }
       })
       .concat(category.childrenDocuments.map((file): File => {
         return {
           id: file.id,
           name: file.title,
-          path: currentTreePath,
+          path: file.path,
           author: file.author,
           description: file.description,
           extension: file.extension,
@@ -208,6 +211,29 @@ export default function Files() {
     return [{ name: directory.name, type: "directory", childrens: [ ...base64categories, ...files ] }]
   }
 
+  // Follow handling
+  const { mutate: subscribe, isSuccess: isFollowSuccess } = useApiMutation(APIEndpoint.SUBSCRIBE_CATEGORY, null, false, {
+    dataAsQueryParam: true,
+    invalidateQueries: ["followed"]
+  });
+  const { mutate: unsubscribe, isSuccess: isUnfollowSuccess } = useApiMutation(APIEndpoint.UNSUBSCRIBE_CATEGORY, null, false, {
+    dataAsQueryParam: true,
+    invalidateQueries: ["followed"]
+  });
+  const subscribeCategory = (category: File) => {
+    subscribe({
+      id: category.id
+    })
+  }
+  const unsubscribeCategory = (category: File) => {
+    unsubscribe({
+      id: category.id
+    })
+  }
+  useEffect(() => {
+    refetch();
+  }, [isUnfollowSuccess, isFollowSuccess])
+
   return (
     <>
       <Box
@@ -226,7 +252,7 @@ export default function Files() {
             setUpdateFileModalOpen(true);
             setSelectedFile({ 
               id: file.id, title: file.name, description: file.description || "",
-              extension: file.extension || "", author: file.author || ""
+              extension: file.extension || "", author: file.author || "", path: file.path
             });
           }}
           onCreateDirectory={() => setCreateDirectoryModalOpen(true)}
@@ -241,7 +267,8 @@ export default function Files() {
           onDownloadDirectory={setDirectoryToDownload}
           onDownloadFile={setFileToDownload}
           enableAlterFileOrDirectory={containsAdmin}
-          onFollow={(file) => console.log(file)}
+          onFollow={subscribeCategory}
+          onUnfollow={unsubscribeCategory}
         />
       </Box>
       { category && 

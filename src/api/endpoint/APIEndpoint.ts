@@ -32,6 +32,9 @@ export default class APIEndpoint<T, U> {
   public static readonly UPDATE_CATEGORY = new APIEndpoint("/Category/UpdateCategory", "PATCH", UpdateCategoryRequestDTO, CategoryResponseDTO);
   public static readonly DELETE_CATEGORY = new APIEndpoint("/Category/DeleteCategory/{id}", "DELETE", null, null);
   public static readonly GET_FOLLOWED_CATEGORIES = new APIEndpoint("/Category/GetFollowedCategories", "GET", null, FollowedCategoryResponseDTO);
+  public static readonly SUBSCRIBE_CATEGORY = new APIEndpoint("/Category/SubscribeCategory/{id}", "POST", null, null);
+  public static readonly UNSUBSCRIBE_CATEGORY = new APIEndpoint("/Category/UnsubscribeCategory/{id}", "POST", null, null);
+
 
   public static readonly GET_DOCUMENT = new APIEndpoint("/Document/GetDocument/{id}", "GET", null, DocumentResponseDTO);
   public static readonly GET_ALL_DOCUMENTS = new APIEndpoint("/Document/GetAllDocuments", "GET", null, Array<DocumentResponseDTO>);

@@ -10,6 +10,8 @@ export default class CategorySkeletonResponseDTO {
   constructor(
     public readonly id: number,
     public readonly name: string,
+    public readonly path: string,
+    public readonly subscribed?: boolean,
   ) {}
 
 }
