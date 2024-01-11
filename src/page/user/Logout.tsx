@@ -5,13 +5,17 @@ import { useNavigate } from "react-router-dom";
 
 export default function Logout() {
   const navigate = useNavigate();
-  useApiMutation(APIEndpoint.LOGOUT, null, false);
+  const { mutate } = useApiMutation(APIEndpoint.LOGOUT, null, false);
     
   useEffect(() => {
+    const handleLogoutRequest = async () => {
+      await mutate();
       localStorage.clear();
       window.dispatchEvent(new Event('storage'));
       navigate("/");
-  }, []);
+    } 
+    handleLogoutRequest();
+  }, [navigate, mutate]);
   
   return null;
 }

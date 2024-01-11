@@ -12,6 +12,7 @@ import './i18n'
 import { LanguageSwitcher } from "@component/LanguageSwitcher/LanguageSwitcher";
 import Logout from "@page/user/Logout";
 import { AccessRouteLayout } from "layout/ApplicationLayout/AccessRouteLayout";
+import Users from "@page/user/Users";
 
 function App() {
   // Defining all the application routes
@@ -46,6 +47,10 @@ function App() {
             {
               path: ApplicationRoute.FOLLOWED,
               element: <Followed />
+            },
+            {
+              path: ApplicationRoute.USERS,
+              element: <Users />
             }
           ]
         }

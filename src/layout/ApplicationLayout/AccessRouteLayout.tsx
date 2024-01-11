@@ -1,24 +1,9 @@
 import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
-import { useEffect, useState } from "react";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import useGetLogginAdmin from "@hook/user/useGetLogginAdmin";
+import { Navigate, Outlet } from "react-router-dom";
 
 export function AccessRouteLayout() {
-  const location = useLocation();
-  const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem("mail")));
-
-  // Refetch the API request if the location change
-  useEffect(() => {
-    const updateLocalStorageData = () => {
-      const mail = Boolean(localStorage.getItem("mail"));
-      setIsLoggedIn(mail);
-      // const roles = localStorage.getItem("roles");
-      // const containsAdmin = roles ? roles.includes("ROLE_ADMIN") : false;
-    };
-    window.addEventListener('storage', updateLocalStorageData);
-    return () => {
-      window.removeEventListener('storage', updateLocalStorageData);
-    };
-  }, []);
+  const { isLoggedIn, containsAdmin }= useGetLogginAdmin();
 
   const renderContent = () => {
     switch (location.pathname) {
@@ -26,6 +11,8 @@ export function AccessRouteLayout() {
         return !isLoggedIn ? <Outlet /> : <Navigate to={ApplicationRoute.HOME} />;
       case ApplicationRoute.FILES:
         return isLoggedIn ? <Outlet /> : <Navigate to={ApplicationRoute.HOME} />;
+      case ApplicationRoute.USERS:
+          return isLoggedIn && containsAdmin ? <Outlet /> : <Navigate to={ApplicationRoute.HOME} />;
       case ApplicationRoute.FOLLOWED:
         return isLoggedIn ? <Outlet /> : <Navigate to={ApplicationRoute.HOME} />;
       case ApplicationRoute.LOGOUT:

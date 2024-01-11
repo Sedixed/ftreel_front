@@ -7,4 +7,5 @@ export enum ApplicationRoute {
   FILES = "/files",
   FOLLOWED = "/followed",
   LOGOUT = "/logout",
+  USERS = "/users",
 }

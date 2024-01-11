@@ -1,20 +1,17 @@
 import SplashBackground from "@component/SplashBackground/SplashBackground";
 import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
 import { Box, Button, styled } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import useGetLogginAdmin from "@hook/user/useGetLogginAdmin";
 
 /**
  * Home component containing the home of the application.
  */
 export default function Home() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    setIsLoggedIn(Boolean(localStorage.getItem('mail')));
-  }, []);
+  const { isLoggedIn } = useGetLogginAdmin();
 
   const onAccessButtonClick = useCallback(() => {
     navigate(ApplicationRoute.FILES);
@@ -29,10 +26,6 @@ export default function Home() {
   }, [navigate]);
 
   const { t } = useTranslation();
-
-  useEffect(() => {
-    setIsLoggedIn(Boolean(localStorage.getItem('mail')));
-  }, []);
 
   return (
     <HomeWrapper>
