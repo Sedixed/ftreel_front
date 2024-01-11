@@ -20,11 +20,13 @@ import { useQueryClient } from "react-query";
 import { buildURLWithQueryParams } from "@utils/url-utils";
 import CategoryResponseDTO from "@api/dto/response/category/CategoryResponseDTO";
 import DocumentResponseDTO from "@api/dto/response/document/DocumentResponseDTO";
+import useGetLogginAdmin from "@hook/user/useGetLogginAdmin";
 
 // TODO :
 // - Ajouter chemin courant
 export default function Files() {
   const { t } = useTranslation();
+  const { containsAdmin } = useGetLogginAdmin();
 
   const queryClient = useQueryClient();
 
@@ -238,6 +240,7 @@ export default function Files() {
           onBack={(newPath) => updateSearchParams("path", newPath)}
           onDownloadDirectory={setDirectoryToDownload}
           onDownloadFile={setFileToDownload}
+          enableAlterFileOrDirectory={containsAdmin}
         />
       </Box>
       { category && 
