@@ -1,22 +1,23 @@
 import React, {  } from "react"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Home from "@page/home/Home";
-import Login from "@page/login/Login";
+import Login from "@page/user/Authentication";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { HomeButtonLayout } from "layout/ApplicationLayout/HomeButtonLayout";
 import Files from "@page/files/Files";
 import SidebarLayout from "layout/SidebarLayout/SidebarLayout";
 import Followed from "@page/followed/Followed";
 import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
-import { GlobalLayout } from "layout/GlobalLayout/GlobalLayout.tsx";
 import './i18n'
 import { LanguageSwitcher } from "@component/LanguageSwitcher/LanguageSwitcher";
+import Logout from "@page/user/Logout";
+import { AccessRouteLayout } from "layout/ApplicationLayout/AccessRouteLayout";
 
 function App() {
   // Defining all the application routes
   const router = createBrowserRouter([
     {
-      element: <GlobalLayout/>,
+      element: <AccessRouteLayout />,
       children: [
         {
           path: ApplicationRoute.HOME,
@@ -26,8 +27,12 @@ function App() {
           element: <HomeButtonLayout />,
           children: [
             {
-              path: ApplicationRoute.LOGIN,
+              path: ApplicationRoute.AUTHENTICATION,
               element: <Login />
+            },
+            {
+              path: ApplicationRoute.LOGOUT,
+              element: <Logout />
             }
           ]
         },

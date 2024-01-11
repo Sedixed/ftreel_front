@@ -5,9 +5,12 @@ const resources = {
   en: {
     translation: {
       homeLogin: 'Login',
+      homeLogout: 'Logout',
+      homeRegister: 'Register',
       homeAccess: 'Access files',
       homeSlogan: 'One click, one tree saved.',
       loginLogin: 'Login',
+      registerRegister: 'Register',
       loginUsername: 'Username',
       loginPassword: 'Password',
       filesFiles: 'Files',
@@ -20,9 +23,12 @@ const resources = {
   fr: {
     translation: {
       homeLogin: 'Connexion',
+      homeLogout: 'Déconnexion',
+      homeRegister: 'Inscription',
       homeAccess: 'Accéder',
       homeSlogan: 'Un clic, un arbre préservé.',
       loginLogin: 'Se connecter',
+      registerRegister: 'S\'inscire',
       loginUsername: 'Nom d\'utilisateur',
       loginPassword: 'Mot de passe',
       filesFiles: 'Fichiers',
