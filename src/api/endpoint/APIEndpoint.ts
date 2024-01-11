@@ -19,8 +19,9 @@ import GetCategoryWithPathRequestDTO from "@api/dto/request/category/GetCategory
  */
 export default class APIEndpoint<T, U> {
 
-  public static readonly LOGIN = new APIEndpoint("/Authentication/Login", "POST", AuthenticationRequestDTO, null);
-  public static readonly REGISTER = new APIEndpoint("/Authentication/Register", "POST", RegistrationRequestDTO, null);
+  public static readonly LOGIN = new APIEndpoint("/Authentication/Login", "POST", AuthenticationRequestDTO, GetUserResponseDTO);
+  public static readonly REGISTER = new APIEndpoint("/Authentication/Register", "POST", RegistrationRequestDTO, GetUserResponseDTO);
+  public static readonly LOGOUT = new APIEndpoint("/Authentication/Logout", "POST", null, null);
   public static readonly GET_USER = new APIEndpoint("/Authentication/GetUser", "GET", null, GetUserResponseDTO);
 
   public static readonly GET_CATEGORY = new APIEndpoint("/Category/GetCategory/{id}", "GET", null, CategoryResponseDTO);

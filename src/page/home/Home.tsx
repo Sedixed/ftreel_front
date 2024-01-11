@@ -1,7 +1,7 @@
 import SplashBackground from "@component/SplashBackground/SplashBackground";
 import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
 import { Box, Button, styled } from "@mui/material";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -10,16 +10,29 @@ import { useTranslation } from "react-i18next";
  */
 export default function Home() {
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(Boolean(localStorage.getItem('mail')));
+  }, []);
 
   const onAccessButtonClick = useCallback(() => {
     navigate(ApplicationRoute.FILES);
-  }, []);
+  }, [navigate]);
 
   const onLoginButtonClick = useCallback(() => {
-    navigate(ApplicationRoute.LOGIN);
-  }, []);
+    navigate(ApplicationRoute.AUTHENTICATION);
+  }, [navigate]);
+
+  const onLogoutButtonClick = useCallback(() => {
+    navigate(ApplicationRoute.LOGOUT);
+  }, [navigate]);
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    setIsLoggedIn(Boolean(localStorage.getItem('mail')));
+  }, []);
 
   return (
     <HomeWrapper>
@@ -27,12 +40,24 @@ export default function Home() {
         <ApplicationTitle>FTreel</ApplicationTitle>
         <ApplicationSubtitle>{t('homeSlogan')}</ApplicationSubtitle>
         <Box marginTop={5}>
-          <Button variant="contained" onClick={onAccessButtonClick} style={{ zIndex: "1", width: "45%", marginRight: "5px" }}>
+          <Button variant="contained" disabled={!isLoggedIn} onClick={onAccessButtonClick} 
+          style={{ zIndex: "1", width: "45%", marginRight: "5px" }}>
             {t('homeAccess')}
           </Button>
-          <Button variant="outlined" onClick={onLoginButtonClick} style={{ zIndex: "1", width: "45%" }}>
-            {t('homeLogin')}
-          </Button>
+          {
+            !isLoggedIn &&
+            <Button variant="outlined" onClick={onLoginButtonClick} 
+            style={{ zIndex: "1", width: "45%" }}>
+              {t('homeLogin')}
+            </Button>
+          }
+          {
+            isLoggedIn &&
+            <Button variant="outlined" onClick={onLogoutButtonClick} 
+            style={{ zIndex: "1", width: "45%" }}>
+              {t('homeLogout')}
+            </Button>
+          }
         </Box>
       </TitleContainer>
       <SplashBackground src="https://picsum.photos/600" alt="Random test picture" />

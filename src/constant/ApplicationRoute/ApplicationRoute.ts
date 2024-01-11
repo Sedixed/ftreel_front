@@ -3,7 +3,7 @@
  */
 export enum ApplicationRoute {
   HOME = "/",
-  LOGIN = "/login",
+  AUTHENTICATION = "/authentication",
   FILES = "/files",
   FOLLOWED = "/followed",
   LOGOUT = "/logout",
