@@ -282,12 +282,9 @@ export default function Files() {
           onDownloadFile={setFileToDownload}
           onFollow={subscribeCategory}
           onUnfollow={unsubscribeCategory}
-<<<<<<< HEAD
           enableAlterFileOrDirectory={containsAdmin}
           enableCreateFile={true}
-=======
           onFilter={onFilter}
->>>>>>> ba80217183c868af5dbbb38b635731e5eafc3cd7
         />
       </Box>
       { category && 

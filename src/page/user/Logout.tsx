@@ -9,7 +9,7 @@ export default function Logout() {
     
   useEffect(() => {
     const handleLogoutRequest = async () => {
-      await mutate();
+      await mutate(null);
       localStorage.clear();
       window.dispatchEvent(new Event('storage'));
       navigate("/");

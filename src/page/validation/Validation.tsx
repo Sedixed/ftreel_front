@@ -6,10 +6,11 @@ import { useTranslation } from 'react-i18next';
 import CenteredModal from '@component/CenteredModal/CenteredModal';
 import DetailModal from '@component/DetailModal/DetailModal';
 import useSnackbar from '@hook/snackbar/useSnackbar';
-import FileGrid, { File } from "@component/FileGrid/FileGrid";
 import useApiMutation from '@hook/api/useApiMutation';
 import { downloadBase64 } from '@utils/download-utils';
 import { useQueryClient } from 'react-query';
+import FileTree, { File } from "@component/FileTree/FileTree";
+import DoneIcon from '@mui/icons-material/Done';
 
 export default function ValidationPage() {
   const { t } = useTranslation();
@@ -37,9 +38,9 @@ export default function ValidationPage() {
   });
 
   // Filter files to match them with the FileTree "file" property
-  let fileGridFiles: File[] = [];
+  let notValidatedFiles: File[] = [];
   if (files) {
-    fileGridFiles = files.map((file): File => {
+    notValidatedFiles = files.map((file): File => {
       return {
         id: file.id,
         name: file.title,
@@ -109,14 +110,26 @@ export default function ValidationPage() {
         <h1>{t('filesValidation')}</h1>
         {
           files && !isLoading &&
-          <FileGrid
-            files={fileGridFiles}
-            onRefresh={() => refetch()}
-            onDetails={setDetailPanelContent}
-            onValidate={(file) => validateDocument({id: file.id})}
-            onDeleteFile={(file) => deleteDocument({id: file.id})}
+          <FileTree
+            path={""}
+            files={notValidatedFiles}
             isLoading={isLoading}
+            onRefresh={() => refetch()}
+            enableBackButton={false}
+            enableFilterBar={false}
+            enableCreateFile={false}
+            enableAlterFileOrDirectory={false}
+            onDetails={setDetailPanelContent}
+            onDeleteFile={(file) => deleteDocument({id: file.id})}
             onDownloadFile={setFileToDownload}
+            customizeContextMenu={(file, menu) => {
+              menu.push({
+                label: "Valider",
+                icon: <DoneIcon />,
+                onClick: validateDocument != null ? () => validateDocument(file) : () => 0,
+              });
+              return menu;
+            }}
           />
         }
         { 
