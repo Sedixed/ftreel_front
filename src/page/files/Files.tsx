@@ -25,13 +25,11 @@ import LikeIcon from "@mui/icons-material/ThumbUp";
 import UnlikeIcon from '@mui/icons-material/ThumbDown';
 import { Breadcrumbs } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-
-// TODO :
-// - Snackbar (gérer erreurs et succès)
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function Files() {
   const { t } = useTranslation();
-  const { containsAdmin } = useGetLogginAdmin();
+  const { containsAdmin, loggedUser } = useGetLogginAdmin();
 
   const queryClient = useQueryClient();
 
@@ -376,6 +374,13 @@ export default function Files() {
                     : likeFile != null ? () => likeFile(file) : () => 0 
                 }
               );
+              if (file.author == loggedUser) {
+                menu.push({
+                  label: t("deleteFileLabel"),
+                  icon: <DeleteIcon />,
+                  onClick: deleteDocument != null ? () => deleteDocument(file) : () => 0,
+                });
+              }
             }
             
             return menu;
