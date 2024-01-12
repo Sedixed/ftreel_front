@@ -8,6 +8,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Typography,
   hexToRgb,
   useTheme,
 } from "@mui/material";
@@ -56,7 +57,7 @@ type SidebarElement = {
  * Layout adding a sidebar at the left of its childrens.
  */
 export default function SidebarLayout() {
-  const { containsAdmin } = useGetLogginAdmin();
+  const { containsAdmin, loggedUser } = useGetLogginAdmin();
   const { t } = useTranslation();
   const { i18n } = useTranslation();
   const location = useLocation();
@@ -134,6 +135,9 @@ export default function SidebarLayout() {
     <Box sx={{ display: "flex" }}>
       <Sidebar width={sidebarWidth}>
         <h2 style={{ textAlign: "center" }}>FTreel</h2>
+        <Typography style={{ textAlign: "center" }}>
+          {containsAdmin ? <span><strong>Admin :</strong> {loggedUser}</span> : loggedUser}
+        </Typography>
         <List
           sx={{
             height: "100%",
