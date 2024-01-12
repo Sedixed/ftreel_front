@@ -1,7 +1,7 @@
 import { Class } from "@type/Class";
 import AuthenticationRequestDTO from "@api/dto/request/authentication/AuthenticationRequestDTO";
 import RegistrationRequestDTO from "@api/dto/request/authentication/RegistrationRequestDTO";
-import GetUserResponseDTO from "@api/dto/response/authentication/GetUserResponseDTO";
+import UserResponseDTO from "@api/dto/response/authentication/UserResponseDTO";
 import DocumentResponseDTO from "@api/dto/response/document/DocumentResponseDTO";
 import UploadDocumentRequestDTO from "@api/dto/request/document/UploadDocumentRequestDTO";
 import UpdateDocumentRequestDTO from "@api/dto/request/document/UpdateDocumentRequestDTO";
@@ -10,6 +10,8 @@ import CreateCategoryRequestDTO from "@api/dto/request/category/CreateCategoryRe
 import UpdateCategoryRequestDTO from "@api/dto/request/category/UpdateCategoryRequestDTO";
 import GetCategoryWithPathRequestDTO from "@api/dto/request/category/GetCategoryWithPathRequestDTO";
 import FollowedCategoryResponseDTO from "@api/dto/response/category/FollowedCategoryResponseDTO";
+import CreateUserRequestDTO from "@api/dto/request/user/CreateUserRequestDTO";
+import UpdateUserRequestDTO from "@api/dto/request/user/UpdateUserRequestDTO";
 
 /**
  * Class containing the API endpoints metadata (URI, request type...). This class also contains all the existing API 
@@ -20,10 +22,10 @@ import FollowedCategoryResponseDTO from "@api/dto/response/category/FollowedCate
  */
 export default class APIEndpoint<T, U> {
 
-  public static readonly LOGIN = new APIEndpoint("/Authentication/Login", "POST", AuthenticationRequestDTO, GetUserResponseDTO);
-  public static readonly REGISTER = new APIEndpoint("/Authentication/Register", "POST", RegistrationRequestDTO, GetUserResponseDTO);
+  public static readonly LOGIN = new APIEndpoint("/Authentication/Login", "POST", AuthenticationRequestDTO, UserResponseDTO);
+  public static readonly REGISTER = new APIEndpoint("/Authentication/Register", "POST", RegistrationRequestDTO, UserResponseDTO);
   public static readonly LOGOUT = new APIEndpoint("/Authentication/Logout", "POST", null, null);
-  public static readonly GET_USER = new APIEndpoint("/Authentication/GetUser", "GET", null, GetUserResponseDTO);
+  public static readonly GET_CURRENT_USER = new APIEndpoint("/Authentication/GetUser", "GET", null, UserResponseDTO);
 
   public static readonly GET_CATEGORY = new APIEndpoint("/Category/GetCategory/{id}", "GET", null, CategoryResponseDTO);
   public static readonly GET_CATEGORY_WITH_PATH = new APIEndpoint("/Category/GetCategoryWithPath", "GET", GetCategoryWithPathRequestDTO, CategoryResponseDTO);
@@ -45,6 +47,12 @@ export default class APIEndpoint<T, U> {
   public static readonly VALIDATE_DOCUMENT = new APIEndpoint("/Document/ValidateDocument/{id}", "POST", null, null);
   public static readonly LIKE_DOCUMENT = new APIEndpoint("/Document/Like/{id}", "POST", null, null);
   public static readonly UNLIKE_DOCUMENT = new APIEndpoint("/Document/Unlike/{id}", "POST", null, null);
+
+  public static readonly GET_USER = new APIEndpoint("/User/GetUser/{id}", "POST", AuthenticationRequestDTO, UserResponseDTO);
+  public static readonly GET_ALL_USERS = new APIEndpoint("/User/GetAllUsers", "GET", null, Array<UserResponseDTO>);
+  public static readonly CREATE_USER = new APIEndpoint("/User/CreateUser", "POST", CreateUserRequestDTO, UserResponseDTO);
+  public static readonly UPDATE_USER = new APIEndpoint("/User/UpdateUser", "PATCH", UpdateUserRequestDTO, UserResponseDTO);
+  public static readonly DELETE_USER = new APIEndpoint("/User/DeleteUser/{id}", "DELETE", null, null);
 
   /**
    * @param uri          The endpoint's URI.

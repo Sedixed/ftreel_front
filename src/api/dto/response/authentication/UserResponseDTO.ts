@@ -1,7 +1,7 @@
 /**
  * Represents the current user.
  */
-export default class GetUserResponseDTO {
+export default class UserResponseDTO {
 
   /**
    * @param id    The current user's id.
