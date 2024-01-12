@@ -115,7 +115,7 @@ export type FileTreeProps = {
   enableAlterFileOrDirectory?: boolean;
 
   /**
-   * Boolean that indicate if the buttons to create a file.
+   * Boolean that indicate if the buttons to create a file should be enabled.
    */
   enableCreateFile?: boolean;
 

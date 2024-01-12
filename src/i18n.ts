@@ -60,6 +60,9 @@ const resources = {
       create: "Create",
       modify: "Modify",
       root: "Root",
+      getRequestError: "Can't fetch request",
+      getRequestSuccess: "Request done successfuly",
+      validate: "Validate",
     },
   },
   fr: {
@@ -120,6 +123,9 @@ const resources = {
       create: "Créer",
       modify: "Modifier",
       root: "Racine",
+      getRequestError: "Erreur dans l'opération",
+      getRequestSuccess: "Opération réalisée avec succès",
+      validate: "Valider"
     },
   },
 };

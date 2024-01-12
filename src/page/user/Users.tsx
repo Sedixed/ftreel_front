@@ -25,10 +25,21 @@ import { useTranslation } from "react-i18next";
 
 export default function Users() {
   const { t } = useTranslation();
-  // Setup the fetch error snackbar
-  const { snackbar: fetchErrorSnackbar, show: showFetchError } = useSnackbar(
-    "Impossible de récupérer les utilisateurs.",
-    "warning"
+
+  // Setup the error snackbar
+  const { snackbar: errorSnackbar, show: showError } = useSnackbar(
+    t("getRequestError"),
+    "warning",
+    { horizontal: 'right', vertical: 'bottom' },
+    3000
+  );
+
+  // Setup the success delete snackbar
+  const { snackbar: successSnackbar, show: showSuccess } = useSnackbar(
+    t("getRequestSuccess"),
+    "success",
+    { horizontal: 'right', vertical: 'bottom' },
+    1000
   );
 
   // Server side table configuration
@@ -109,13 +120,11 @@ export default function Users() {
   } = useApi(APIEndpoint.GET_ALL_USERS, undefined, {
     queryKey: "users",
     staleTime: -1,
-    onError: showFetchError
+    onError: showError
   });
 
   // User creation handling
   const [openUserCreate, setOpenUserCreate] = useState(false);
-  const { snackbar: creationErrorSnackbar, show: showCreationError } =
-    useSnackbar("Impossible de créer l'utilisateur.", "error");
   const {
     mutate: mutateCreation,
     isError: isCreationError,
@@ -123,6 +132,8 @@ export default function Users() {
     reset: resetCreationData,
   } = useApiMutation(APIEndpoint.CREATE_USER, null, false, {
     invalidateQueries: ["users"],
+    onError: showError,
+    onSuccess: showSuccess,
   });
   const createUser = (user: CreateUserRequestDTO) => {
     const { mail, password, roles } = user;
@@ -130,7 +141,7 @@ export default function Users() {
     setOpenUserCreate(false);
   };
   if (isCreationError) {
-    showCreationError();
+    showError();
     resetCreationData();
   } else if (isCreationSuccess) {
     resetCreationData();
@@ -139,10 +150,6 @@ export default function Users() {
 
   // User update handling
   const [openUserUpdate, setOpenUserUpdate] = useState(false);
-  const { snackbar: updateErrorSnackbar, show: showUpdateError } = useSnackbar(
-    "Impossible de modifier l'utilisateur.",
-    "error"
-  );
   const {
     mutate: mutateUpdate,
     isError: isUpdateError,
@@ -150,6 +157,8 @@ export default function Users() {
     reset: resetUpdateData,
   } = useApiMutation(APIEndpoint.UPDATE_USER, null, false, {
     invalidateQueries: ["users"],
+    onError: showError,
+    onSuccess: showSuccess,
   });
   const updateUserAdmin = (user: UpdateUserRequestDTO) => {
     const { id, mail, password, roles } = user;
@@ -157,7 +166,7 @@ export default function Users() {
     setOpenUserUpdate(false);
   };
   if (isUpdateError) {
-    showUpdateError();
+    showError();
     resetUpdateData();
   } else if (isUpdateSuccess) {
     resetUpdateData();
@@ -169,7 +178,10 @@ export default function Users() {
     APIEndpoint.DELETE_USER,
     null,
     false, {
+      dataAsQueryParam: true,
       invalidateQueries: ["users"],
+      onError: showError,
+      onSuccess: showSuccess,
     });
   const deleteUser = (id: number) => {
     mutateDelete({
@@ -238,9 +250,8 @@ export default function Users() {
       >
         <UpdateUserAdminForm currentUser={selectedUser} onSubmit={updateUserAdmin} />
       </CenteredModal>
-      {creationErrorSnackbar}
-      {updateErrorSnackbar}
-      {fetchErrorSnackbar}
+      {errorSnackbar}
+      {successSnackbar}
     </>
   );
 }

@@ -11,6 +11,7 @@ import { downloadBase64 } from '@utils/download-utils';
 import { useQueryClient } from 'react-query';
 import FileTree, { File } from "@component/FileTree/FileTree";
 import DoneIcon from '@mui/icons-material/Done';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function ValidationPage() {
   const { t } = useTranslation();
@@ -18,8 +19,18 @@ export default function ValidationPage() {
   
   // Setup the error snackbar
   const { snackbar: errorSnackbar, show: showError } = useSnackbar(
-    "Impossible de récupérer les fichiers.",
-    "warning"
+    t("getRequestError"),
+    "warning",
+    { horizontal: 'right', vertical: 'bottom' },
+    3000
+  );
+
+  // Setup the success delete snackbar
+  const { snackbar: successSnackbar, show: showSuccess } = useSnackbar(
+    t("getRequestSuccess"),
+    "success",
+    { horizontal: 'right', vertical: 'bottom' },
+    1000
   );
 
   // State of the detail panel
@@ -61,7 +72,10 @@ export default function ValidationPage() {
     isSuccess: validateDocumentSucess,
   } = useApiMutation(APIEndpoint.VALIDATE_DOCUMENT, null, false, { 
     dataAsQueryParam: true, 
-    invalidateQueries: ["notValidatedFiles"] });
+    invalidateQueries: ["notValidatedFiles"],
+    onError: showError,
+    onSuccess: showSuccess,
+  });
   if (validateDocumentSucess) {
     refetch()
     resetValidateDocument()
@@ -74,7 +88,9 @@ export default function ValidationPage() {
     isSuccess: deletedDocumentSucess,
   } = useApiMutation(APIEndpoint.DELETE_DOCUMENT, null, false, { 
     dataAsQueryParam: true, 
-    invalidateQueries: ["notValidatedFiles"]
+    invalidateQueries: ["notValidatedFiles"],
+    onError: showError,
+    onSuccess: showSuccess,
   });
   if (deletedDocumentSucess) {
     refetch()
@@ -130,9 +146,14 @@ export default function ValidationPage() {
             onDownloadFile={setFileToDownload}
             customizeContextMenu={(file, menu) => {
               menu.push({
-                label: "Valider",
+                label: t("validate"),
                 icon: <DoneIcon />,
                 onClick: validateDocument != null ? () => validateDocument(file) : () => 0,
+              });
+              menu.push({
+                label: t("deleteFileLabel"),
+                icon: <DeleteIcon />,
+                onClick: deleteDocument != null ? () => deleteDocument(file) : () => 0,
               });
               return menu;
             }}
@@ -158,6 +179,7 @@ export default function ValidationPage() {
         </CenteredModal>
       }
       {errorSnackbar}
+      {successSnackbar}
     </>
   )
 }

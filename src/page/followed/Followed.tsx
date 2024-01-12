@@ -13,14 +13,27 @@ export default function Followed() {
   // Translation
   const { t } = useTranslation();
 
-  // Error snackbar
-  const { show, snackbar: errorSnackbar } = useSnackbar("Impossible de récupérer les dossiers suivis.", "warning")
+  // Setup the error snackbar
+  const { snackbar: errorSnackbar, show: showError } = useSnackbar(
+    t("getRequestError"),
+    "warning",
+    { horizontal: 'right', vertical: 'bottom' },
+    3000
+  );
+
+  // Setup the success delete snackbar
+  const { snackbar: successSnackbar, show: showSuccess } = useSnackbar(
+    t("getRequestSuccess"),
+    "success",
+    { horizontal: 'right', vertical: 'bottom' },
+    1000
+  );
 
   // Get the followed categories
   const { data: followedData, refetch, isLoading } = useApi(APIEndpoint.GET_FOLLOWED_CATEGORIES, {}, {
     queryKey: "followed",
     staleTime: 60000,
-    onError: show,
+    onError: showError,
   })
   const followedCategories: File[] = []
   if (followedData) {
@@ -41,7 +54,9 @@ export default function Followed() {
   // Unfollow handling
   const { mutate: unsubscribe } = useApiMutation(APIEndpoint.UNSUBSCRIBE_CATEGORY, null, false, {
     dataAsQueryParam: true,
-    invalidateQueries: ["followed"]
+    invalidateQueries: ["followed"],
+    onError: showError,
+    onSuccess: showSuccess,
   });
   const unsubscribeCategory = (category: File) => {
     unsubscribe({
@@ -69,6 +84,7 @@ export default function Followed() {
           onDetails={setDetailPanelContent}
         />
         {errorSnackbar}
+        {successSnackbar}
       </Box>
       { followedData && 
         <CenteredModal 

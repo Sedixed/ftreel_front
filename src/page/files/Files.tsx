@@ -1,4 +1,4 @@
-import { Box, Link, Typography } from "@mui/material";
+import { Box, Link } from "@mui/material";
 import useApi from "@hook/api/useApi";
 import APIEndpoint from "@api/endpoint/APIEndpoint";
 import { useSearchParams } from "react-router-dom";
@@ -54,8 +54,18 @@ export default function Files() {
 
   // Setup the error snackbar
   const { snackbar: errorSnackbar, show: showError } = useSnackbar(
-    "Impossible de récupérer les fichiers.",
-    "warning"
+    t("getRequestError"),
+    "warning",
+    { horizontal: 'right', vertical: 'bottom' },
+    3000
+  );
+
+  // Setup the success delete snackbar
+  const { snackbar: successSnackbar, show: showSuccess } = useSnackbar(
+    t("getRequestSuccess"),
+    "success",
+    { horizontal: 'right', vertical: 'bottom' },
+    1000
   );
 
   // Setup selected file for update
@@ -147,7 +157,8 @@ export default function Files() {
     isSuccess: deletedDocumentSucess,
   } = useApiMutation(APIEndpoint.DELETE_DOCUMENT, null, false, { 
     dataAsQueryParam: true,
-    invalidateQueries: ["notValidatedFiles"] 
+    invalidateQueries: ["notValidatedFiles"],
+    onSuccess: showSuccess,
   });
   const { 
     mutate: deleteCategory,
@@ -155,7 +166,8 @@ export default function Files() {
     isSuccess: deletedCategorySucess,
   } = useApiMutation(APIEndpoint.DELETE_CATEGORY, null, false, { 
     dataAsQueryParam: true,
-    invalidateQueries: ["notValidatedFiles"] 
+    invalidateQueries: ["notValidatedFiles"],
+    onSuccess: showSuccess, 
   });
   if (deletedDocumentSucess) {
     refetch()
@@ -242,10 +254,12 @@ export default function Files() {
   const { mutate: subscribe, isSuccess: isFollowSuccess } = useApiMutation(APIEndpoint.SUBSCRIBE_CATEGORY, null, false, {
     dataAsQueryParam: true,
     invalidateQueries: ["followed"],
+    onSuccess: showSuccess,
   });
   const { mutate: unsubscribe, isSuccess: isUnfollowSuccess } = useApiMutation(APIEndpoint.UNSUBSCRIBE_CATEGORY, null, false, {
     dataAsQueryParam: true,
     invalidateQueries: ["followed"],
+    onSuccess: showSuccess,
   });
   const subscribeCategory = (category: File) => {
     subscribe({
@@ -264,11 +278,13 @@ export default function Files() {
   // Like handling
   const { mutate: like, isSuccess: isLikeSuccess } = useApiMutation(APIEndpoint.LIKE_DOCUMENT, null, false, {
     dataAsQueryParam: true,
-    invalidateQueries: ["liked"]
+    invalidateQueries: ["liked"],
+    onSuccess: showSuccess,
   });
   const { mutate: unlike, isSuccess: isUnlikeSuccess } = useApiMutation(APIEndpoint.UNLIKE_DOCUMENT, null, false, {
     dataAsQueryParam: true,
-    invalidateQueries: ["liked"]
+    invalidateQueries: ["liked"],
+    onSuccess: showSuccess,
   });
   const likeFile = (file: File) => {
     like({
@@ -381,6 +397,7 @@ export default function Files() {
             categoryId={category?.id ?? 0} 
             onSuccess={() => {
               setCreateFileModalOpen(false);
+              showSuccess();
               refetch();
             }}
           />
@@ -394,6 +411,7 @@ export default function Files() {
             currentFile={selectedFile}
             onSuccess={() => {
               setUpdateFileModalOpen(false);
+              showSuccess();
               refetch();
             }}
           />
@@ -406,6 +424,7 @@ export default function Files() {
             categoryId={category?.id ?? 0} 
             onSuccess={() => {
               setCreateDirectoryModalOpen(false);
+              showSuccess();
               refetch();
             }}
           />
@@ -419,12 +438,14 @@ export default function Files() {
             currentDirectory={selectedDirectory}
             onSuccess={() => {
               setUpdateDirectoryModalOpen(false);
+              showSuccess();
               refetch();
             }}
           />
         </CenteredModal>
       }
       {errorSnackbar}
+      {successSnackbar}
     </>
   );
 }

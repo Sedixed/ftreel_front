@@ -3,22 +3,30 @@ import CenterDiv from "@component/CenterDiv/CenterDiv";
 import FormContainer from "@component/FormContainer/FormContainer";
 import SplashBackground from "@component/SplashBackground/SplashBackground";
 import useApiMutation from "@hook/api/useApiMutation";
-import { TextField, Button, CircularProgress, Snackbar } from "@mui/material";
+import { TextField, Button, CircularProgress } from "@mui/material";
 import { SyntheticEvent, useCallback, useEffect, useRef, useState } from "react";
 import AuthenticationRequestDTO from '../../api/dto/request/authentication/AuthenticationRequestDTO';
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import RegistrationRequestDTO from "@api/dto/request/authentication/RegistrationRequestDTO";
+import useSnackbar from "@hook/snackbar/useSnackbar";
 
 export default function Authentication() {
   const navigate = useNavigate();
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const [formMode, setFormMode] = useState<'login' | 'register'>('login');
-  const [errorMessage, setErrorMessage] = useState("");
-  const { mutate, data, isLoading, isError, error: apiError } =
+  const { mutate, data, isLoading} =
     useApiMutation(formMode === 'login' ? APIEndpoint.LOGIN : APIEndpoint.REGISTER, null, false);
   const { t } = useTranslation();
+
+  // Setup the error snackbar
+  const { snackbar: errorSnackbar, show: showError } = useSnackbar(
+    t("getRequestError"),
+    "warning",
+    { horizontal: 'right', vertical: 'bottom' },
+    3000
+  );
 
   const sendRequest = useCallback((e: SyntheticEvent) => {
     e.preventDefault();
@@ -31,13 +39,15 @@ export default function Authentication() {
     // Email syntax validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setErrorMessage("Invalid email address");
+      showError();
       return;
     }
  
     // Call API
     mutate(formMode === 'login' ? 
-      new AuthenticationRequestDTO(email, password): new RegistrationRequestDTO(email, password, roles));
+      new AuthenticationRequestDTO(email, password): new RegistrationRequestDTO(email, password, roles), {
+        onError: showError,
+      });
   }, [formMode]);
 
   // Handling authentication
@@ -48,18 +58,11 @@ export default function Authentication() {
       localStorage.setItem("roles", JSON.stringify(data.roles));
       window.dispatchEvent(new Event('storage'));
       navigate("/");
-    } else if (isError && apiError) {
-      setErrorMessage(apiError.message || 'Une erreur inconnue est survenue');
     }
-  }, [data, isError, apiError]);
+  }, [data]);
 
   return (
     <>
-      <Snackbar
-        open={isError}
-        autoHideDuration={6000}
-        message={errorMessage}
-      />
       <CenterDiv sx={{ width: "clamp(400px, 30%, 500px)", height: "100vh", marginLeft: "5%" }} direction="column">
         <div style={{ width: "100%" }}>
           <h1>{formMode === 'login' ? t('homeLogin') : t('homeRegister')}</h1>
@@ -78,6 +81,7 @@ export default function Authentication() {
         </FormContainer>
       </CenterDiv>
       <SplashBackground src="https://picsum.photos/600" alt="Random test picture" />
+      {errorSnackbar}
     </>
   )
 }
