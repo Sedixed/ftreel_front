@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Link, Typography } from "@mui/material";
 import useApi from "@hook/api/useApi";
 import APIEndpoint from "@api/endpoint/APIEndpoint";
 import { useSearchParams } from "react-router-dom";
@@ -23,9 +23,13 @@ import DocumentResponseDTO from "@api/dto/response/document/DocumentResponseDTO"
 import useGetLogginAdmin from "@hook/user/useGetLogginAdmin";
 import LikeIcon from "@mui/icons-material/ThumbUp";
 import UnlikeIcon from '@mui/icons-material/ThumbDown';
+import { Breadcrumbs } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
 // TODO :
 // - Ajouter chemin courant
+// - Snackbar (gérer erreurs et succès)
+
 export default function Files() {
   const { t } = useTranslation();
   const { containsAdmin } = useGetLogginAdmin();
@@ -83,6 +87,7 @@ export default function Files() {
     setSearchParams({[key]: value})    ;   
   }
   const currentTreePath = currentSearchParams.get("path") ?? "/";
+  const pathItems = currentTreePath.split('/').filter(Boolean);
 
   // Send an API request to get the current files
   const [fetchFilter, setFetchFilter] = useState({
@@ -293,6 +298,27 @@ export default function Files() {
         }}
       >
         <h1>{t('filesFiles')}</h1>
+        <Breadcrumbs aria-label="breadcrumb" sx={{ margin: "10px" }}>
+          <Link
+          component={RouterLink}
+            to="/files/" 
+            onClick={() => updateSearchParams("path", "/")}
+            sx={{ textDecoration: "none" }}
+          >
+            {t("root")}
+          </Link>
+          {pathItems.map((item, index) => (
+            <Link
+              key={index}
+              component={RouterLink}
+              to={`/files?path=${pathItems.slice(0, index + 1).join('/')}`}
+              onClick={() => updateSearchParams("path", `/${pathItems.slice(0, index + 1).join('/')}`)}
+              sx={{ textDecoration: "none" }}
+            >
+              {item}
+            </Link>
+          ))}
+        </Breadcrumbs>
         <FileTree
           path={currentTreePath}
           files={fileTreeFiles}

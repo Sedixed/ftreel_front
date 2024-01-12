@@ -58,6 +58,7 @@ const resources = {
       administrateur: "Admin",
       create: "Create",
       modify: "Modify",
+      root: "Root",
     },
   },
   fr: {
@@ -116,6 +117,7 @@ const resources = {
       administrateur: "Administrateur",
       create: "Créer",
       modify: "Modifier",
+      root: "Racine",
     },
   },
 };

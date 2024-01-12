@@ -15,8 +15,6 @@ import { AccessRouteLayout } from "layout/ApplicationLayout/AccessRouteLayout";
 import Users from "@page/user/Users";
 import Validation from "@page/validation/Validation";
 
-// TODO afficher le chemin courant? Docker?
-
 function App() {
   // Defining all the application routes
   const router = createBrowserRouter([

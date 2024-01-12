@@ -30,7 +30,7 @@ export function AccessRouteLayout() {
       case ApplicationRoute.HOME:
         return <Outlet />;
       default:
-        return <Navigate to={ApplicationRoute.HOME} />;
+        return <Outlet />;
     }
   };
   
