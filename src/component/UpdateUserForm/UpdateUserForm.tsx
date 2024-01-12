@@ -1,6 +1,6 @@
 import UpdateUserRequestDTO from "@api/dto/request/user/UpdateUserRequestDTO";
 import UserResponseDTO from "@api/dto/response/authentication/UserResponseDTO";
-import { Button, Checkbox, FormControlLabel, FormGroup, TextField } from "@mui/material";
+import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
 import { useRef } from "react";
 
 export type UpdateUserFormProps = {
@@ -39,7 +39,6 @@ export default function UpdateUserForm({
 
   return (
     <>
-      <FormGroup sx={{ width: "90%" }}>
         <h2>Editer un utilisateur</h2>
         <TextField label="Adresse mail" variant="outlined" inputRef={emailRef}
         defaultValue={currentUser.mail}  style={{ marginBottom: "20px"}}/>
@@ -56,7 +55,6 @@ export default function UpdateUserForm({
         >
           Editer
         </Button>
-      </FormGroup>
     </>
   );
 }

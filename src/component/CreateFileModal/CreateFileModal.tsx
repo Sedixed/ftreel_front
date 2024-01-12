@@ -2,7 +2,7 @@ import UploadDocumentRequestDTO from "@api/dto/request/document/UploadDocumentRe
 import DocumentResponseDTO from "@api/dto/response/document/DocumentResponseDTO";
 import APIEndpoint from "@api/endpoint/APIEndpoint";
 import useApiMutation from "@hook/api/useApiMutation";
-import { Box, Button, FormGroup, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { MuiFileInput } from "mui-file-input";
 import { useRef, useState } from "react";
 
@@ -78,7 +78,6 @@ export default function CreateFileModal({
 
   return (
     <>
-      <FormGroup sx={{ width: "90%" }}>
         <h2>Créer un fichier</h2>
         <Box sx={{ margin: "10px 0" }}>
           <TextField inputRef={titleRef} placeholder="Nom du fichier" sx={{ width: "100%" }} />
@@ -101,7 +100,6 @@ export default function CreateFileModal({
             />
         </Box>
         <Button variant="contained" onClick={onSubmit} style={{ marginBottom: "10px"}}>Créer</Button>
-      </FormGroup>
     </>
   )
 }

@@ -3,7 +3,7 @@ import CategoryResponseDTO from "@api/dto/response/category/CategoryResponseDTO"
 import CategorySkeletonResponseDTO from "@api/dto/response/category/CategorySkeletonResponseDTO";
 import APIEndpoint from "@api/endpoint/APIEndpoint";
 import useApiMutation from "@hook/api/useApiMutation";
-import { Box, Button, FormGroup, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { useRef } from "react";
 
 export type UpdateDirectoryModalProps = {
@@ -67,13 +67,11 @@ export default function UpdateDirectoryModal({
 
   return (
     <>
-      <FormGroup sx={{ width: "90%" }}>
         <h2>Modifier le dossier</h2>
         <Box sx={{ margin: "10px 0" }}>
           <TextField inputRef={nameRef} placeholder="Nom" defaultValue={currentDirectory.name} sx={{ width: "100%" }} />
         </Box>
         <Button variant="contained" onClick={onSubmit} style={{ marginBottom: "10px"}}>Modifier</Button>
-      </FormGroup>
     </>
   )
 }

@@ -36,6 +36,9 @@ const resources = {
       detailExtension: "Type",
       detailLiked: "Liked",
       detailNbLikes: "Number of likes",
+      titleFile: "File",
+      titleDirectory: "Directory",
+      detailFollow: "Subscribed ",
     },
   },
   fr: {
@@ -72,6 +75,9 @@ const resources = {
       detailExtension: "Type",
       detailLiked: "Aimé",
       detailNbLikes: "Nombre de \"j'aime\"",
+      titleFile: "Fichier",
+      titleDirectory: "Dossier",
+      detailFollow: "Abonné ",
     },
   },
 };

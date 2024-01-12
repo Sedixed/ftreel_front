@@ -231,7 +231,8 @@ export default function Users() {
       <CenteredModal
         open={openUserUpdate}
         handleClose={() => setOpenUserUpdate(false)}
-        sx={{ padding: "0 10px 10px 10px", width: "clamp(200px, 50%, 500px)" }}
+        sx={{ padding: "0 10px 10px 10px", width: "clamp(200px, 50%, 500px)",
+       }}
       >
         <UpdateUserAdminForm currentUser={selectedUser} onSubmit={updateUserAdmin} />
       </CenteredModal>
