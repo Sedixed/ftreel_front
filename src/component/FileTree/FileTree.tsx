@@ -7,7 +7,7 @@ import FolderIcon from "@mui/icons-material/Folder";
 import InfoIcon from "@mui/icons-material/Info";
 import FileTreeActionBar from "@component/FileTree/FileTreeActionBar/FileTreeActionBar";
 import CenterDiv from "@component/CenterDiv/CenterDiv";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, SxProps, Theme } from "@mui/material";
 import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -140,7 +140,9 @@ export type FileTreeProps = {
     onClick: () => void;
     label: string;
     icon: JSX.Element;
-  }[]
+  }[];
+
+  elementSx?: SxProps<Theme>;
 };
 
 /**
@@ -228,7 +230,8 @@ export default function FileTree({
   enableCreateFile,
   enableBackButton,
   enableFilterBar,
-  customizeContextMenu
+  customizeContextMenu,
+  elementSx,
 }: FileTreeProps) {
   // Translation
   const { t } = useTranslation()
@@ -348,6 +351,7 @@ export default function FileTree({
             sx={{
               cursor: file.type == "directory" ? "pointer" : "auto",
               opacity: file.type == "file" && !file.isValidated ? 0.5 : 1,
+              ...elementSx
             }}
           />
         ))}

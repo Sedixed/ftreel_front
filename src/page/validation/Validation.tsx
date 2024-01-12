@@ -136,6 +136,7 @@ export default function ValidationPage() {
               });
               return menu;
             }}
+            elementSx={{ opacity: 1 }}
           />
         }
         { 
