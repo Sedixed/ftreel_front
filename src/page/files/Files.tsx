@@ -21,6 +21,8 @@ import { buildSearchParamsNullSafe, buildURLWithQueryParams } from "@utils/url-u
 import CategoryResponseDTO from "@api/dto/response/category/CategoryResponseDTO";
 import DocumentResponseDTO from "@api/dto/response/document/DocumentResponseDTO";
 import useGetLogginAdmin from "@hook/user/useGetLogginAdmin";
+import LikeIcon from "@mui/icons-material/ThumbUp";
+import UnlikeIcon from '@mui/icons-material/ThumbDown';
 
 // TODO :
 // - Ajouter chemin courant
@@ -62,6 +64,8 @@ export default function Files() {
       extension: "",
       author: "",
       path: "",
+      liked: false,
+      nbLikes: 0,
     });
 
   // Setup selected directory for update
@@ -124,6 +128,8 @@ export default function Files() {
           description: file.description,
           extension: file.extension,
           type: "file",
+          liked: file.liked,
+          nbLikes: file.nbLikes,
         }
       }))
   }
@@ -243,6 +249,29 @@ export default function Files() {
     refetch();
   }, [isUnfollowSuccess, isFollowSuccess])
 
+  // Like handling
+  const { mutate: like, isSuccess: isLikeSuccess } = useApiMutation(APIEndpoint.LIKE_DOCUMENT, null, false, {
+    dataAsQueryParam: true,
+    invalidateQueries: ["liked"]
+  });
+  const { mutate: unlike, isSuccess: isUnlikeSuccess } = useApiMutation(APIEndpoint.UNLIKE_DOCUMENT, null, false, {
+    dataAsQueryParam: true,
+    invalidateQueries: ["liked"]
+  });
+  const likeFile = (file: File) => {
+    like({
+      id: file.id
+    })
+  }
+  const unlikeFile = (file: File) => {
+    unlike({
+      id: file.id
+    })
+  }
+  useEffect(() => {
+    refetch();
+  }, [isUnlikeSuccess, isLikeSuccess])
+
   // Filter handling
   const onFilter = (type: string, value: string) => {
     setFetchFilter({ filter: type, value: value })
@@ -266,7 +295,8 @@ export default function Files() {
             setUpdateFileModalOpen(true);
             setSelectedFile({ 
               id: file.id, title: file.name, description: file.description || "",
-              extension: file.extension || "", author: file.author || "", path: file.path
+              extension: file.extension || "", author: file.author || "", path: file.path,
+              liked: file.liked || false, nbLikes: file.nbLikes || 0,
             });
           }}
           onCreateDirectory={() => setCreateDirectoryModalOpen(true)}
@@ -285,6 +315,21 @@ export default function Files() {
           enableAlterFileOrDirectory={containsAdmin}
           enableCreateFile={true}
           onFilter={onFilter}
+          customizeContextMenu={(file, menu) => {
+            if (file.type === "file") {
+              menu.push(
+                { 
+                  label: file.liked ? t("unlikeLabel") : t("likeLabel"), 
+                  icon: file.liked ? <UnlikeIcon /> : <LikeIcon />, 
+                  onClick: file.liked 
+                    ? unlikeFile != null ? () => unlikeFile(file) : () => 0 
+                    : likeFile != null ? () => likeFile(file) : () => 0 
+                }
+              );
+            }
+            
+            return menu;
+          }}
         />
       </Box>
       { category && 

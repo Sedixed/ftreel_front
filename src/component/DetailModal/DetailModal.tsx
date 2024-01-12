@@ -34,6 +34,12 @@ export default function DetailModal({ file }: DetailModalProps) {
       <p>
       {t("detailExtension")} : {file.extension}
       </p>
+      <p>
+      {t("detailLiked")} : {file.liked !== undefined ? (file.liked ? t("oui") : t("non")) : ""}
+      </p>
+      <p>
+      {t("detailNbLikes")} : {file.nbLikes}
+      </p>
     </>
   )
 }

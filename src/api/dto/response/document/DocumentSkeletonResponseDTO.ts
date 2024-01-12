@@ -17,6 +17,8 @@ export default class DocumentSkeletonResponseDTO {
     public readonly extension: string,
     public readonly author: string,
     public readonly path: string,
+    public readonly liked: boolean,
+    public readonly nbLikes: number,
   ) {}
 
 }

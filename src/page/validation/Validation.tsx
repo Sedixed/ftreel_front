@@ -53,7 +53,7 @@ export default function ValidationPage() {
     });
   }
 
-  // API mutations for delete
+  // API mutations for validate
   const { 
     mutate: validateDocument,
     reset: resetValidateDocument,

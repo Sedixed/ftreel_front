@@ -43,6 +43,8 @@ export default class APIEndpoint<T, U> {
   public static readonly DELETE_DOCUMENT = new APIEndpoint("/Document/DeleteDocument/{id}", "DELETE", null, null);
   public static readonly GET_NOT_VALIDATED_DOCUMENTS = new APIEndpoint("/Document/GetNotValidatedDocuments", "GET", null, Array<DocumentResponseDTO>);
   public static readonly VALIDATE_DOCUMENT = new APIEndpoint("/Document/ValidateDocument/{id}", "POST", null, null);
+  public static readonly LIKE_DOCUMENT = new APIEndpoint("/Document/Like/{id}", "POST", null, null);
+  public static readonly UNLIKE_DOCUMENT = new APIEndpoint("/Document/Unlike/{id}", "POST", null, null);
 
   /**
    * @param uri          The endpoint's URI.

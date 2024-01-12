@@ -186,6 +186,16 @@ export type File = {
    * Indicates if the file is followed or not (default: false).
    */
   followed?: boolean;
+
+  /**
+   * Indicates if the file is like or not by the current user (default: false).
+   */
+  liked?: boolean;
+
+  /**
+   * Indicates file's likes count.
+   */
+  nbLikes?: number;
 };
 
 /**
@@ -220,8 +230,10 @@ export default function FileTree({
 
   const getContextMenuByFile = (file: File) => {
     const downloadOption = { label: t("downloadLabel"), icon: <DownloadIcon /> };
+
     // TODO Corriger le problèmes des boutons où il faut cliquer sur le TEXTE
     // pour qu'ils fonctionnent
+
     const detailOption = {
       label: t("detailsLabel"),
       icon: <InfoIcon />,
