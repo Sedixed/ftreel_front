@@ -33,6 +33,7 @@ export default function ValidationPage() {
     isLoading,
     refetch,
   } = useApi(APIEndpoint.GET_NOT_VALIDATED_DOCUMENTS, undefined, {
+    queryKey: "notValidatedFiles",
     staleTime: 60000,
     onError: showError,
   });
@@ -58,7 +59,9 @@ export default function ValidationPage() {
     mutate: validateDocument,
     reset: resetValidateDocument,
     isSuccess: validateDocumentSucess,
-  } = useApiMutation(APIEndpoint.VALIDATE_DOCUMENT, null, false, { dataAsQueryParam: true });
+  } = useApiMutation(APIEndpoint.VALIDATE_DOCUMENT, null, false, { 
+    dataAsQueryParam: true, 
+    invalidateQueries: ["notValidatedFiles"] });
   if (validateDocumentSucess) {
     refetch()
     resetValidateDocument()
@@ -69,7 +72,10 @@ export default function ValidationPage() {
     mutate: deleteDocument,
     reset: resetDeleteDocument,
     isSuccess: deletedDocumentSucess,
-  } = useApiMutation(APIEndpoint.DELETE_DOCUMENT, null, false, { dataAsQueryParam: true });
+  } = useApiMutation(APIEndpoint.DELETE_DOCUMENT, null, false, { 
+    dataAsQueryParam: true, 
+    invalidateQueries: ["notValidatedFiles"]
+  });
   if (deletedDocumentSucess) {
     refetch()
     resetDeleteDocument()

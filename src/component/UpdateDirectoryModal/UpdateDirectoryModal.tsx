@@ -40,7 +40,9 @@ export default function UpdateDirectoryModal({
   const nameRef = useRef<HTMLInputElement | null>(null);
 
   // Create file request
-  const { data, error, mutate, reset } = useApiMutation(APIEndpoint.UPDATE_CATEGORY, null, false);
+  const { data, error, mutate, reset } = useApiMutation(APIEndpoint.UPDATE_CATEGORY, null, false, {
+    invalidateQueries: ["notValidatedFiles"]
+  });
 
   const onSubmit = async () => {
     // Get values

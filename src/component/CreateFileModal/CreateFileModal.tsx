@@ -39,7 +39,9 @@ export default function CreateFileModal({
   }
 
   // Create file request
-  const { data, error, mutate, reset } = useApiMutation(APIEndpoint.UPLOAD_DOCUMENT, null, false);
+  const { data, error, mutate, reset } = useApiMutation(APIEndpoint.UPLOAD_DOCUMENT, null, false, {
+    invalidateQueries: ["notValidatedFiles"]
+  });
 
   // Form handling
   const toBase64 = (file: File) => new Promise<string>((resolve, reject) => {

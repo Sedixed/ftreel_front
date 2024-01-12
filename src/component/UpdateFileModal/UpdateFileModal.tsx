@@ -41,7 +41,9 @@ export default function CreateFileModal({
   const descriptionRef = useRef<HTMLInputElement | null>(null);
 
   // Update file request
-  const { data, error, mutate, reset } = useApiMutation(APIEndpoint.UPDATE_DOCUMENT, null, false);
+  const { data, error, mutate, reset } = useApiMutation(APIEndpoint.UPDATE_DOCUMENT, null, false, {
+    invalidateQueries: ["notValidatedFiles"]
+  });
 
   const onSubmit = async () => {
     // Get values

@@ -139,12 +139,18 @@ export default function Files() {
     mutate: deleteDocument,
     reset: resetDeleteDocument,
     isSuccess: deletedDocumentSucess,
-  } = useApiMutation(APIEndpoint.DELETE_DOCUMENT, null, false, { dataAsQueryParam: true });
+  } = useApiMutation(APIEndpoint.DELETE_DOCUMENT, null, false, { 
+    dataAsQueryParam: true,
+    invalidateQueries: ["notValidatedFiles"] 
+  });
   const { 
     mutate: deleteCategory,
     reset: resetDeleteCategory,
     isSuccess: deletedCategorySucess,
-  } = useApiMutation(APIEndpoint.DELETE_CATEGORY, null, false, { dataAsQueryParam: true });
+  } = useApiMutation(APIEndpoint.DELETE_CATEGORY, null, false, { 
+    dataAsQueryParam: true,
+    invalidateQueries: ["notValidatedFiles"] 
+  });
   if (deletedDocumentSucess) {
     refetch()
     resetDeleteDocument()
@@ -229,11 +235,11 @@ export default function Files() {
   // Follow handling
   const { mutate: subscribe, isSuccess: isFollowSuccess } = useApiMutation(APIEndpoint.SUBSCRIBE_CATEGORY, null, false, {
     dataAsQueryParam: true,
-    invalidateQueries: ["followed"]
+    invalidateQueries: ["followed"],
   });
   const { mutate: unsubscribe, isSuccess: isUnfollowSuccess } = useApiMutation(APIEndpoint.UNSUBSCRIBE_CATEGORY, null, false, {
     dataAsQueryParam: true,
-    invalidateQueries: ["followed"]
+    invalidateQueries: ["followed"],
   });
   const subscribeCategory = (category: File) => {
     subscribe({
