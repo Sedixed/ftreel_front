@@ -4,6 +4,7 @@ import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 /**
  * The file tree action bar.
@@ -72,6 +73,7 @@ export default function TreeActionBar({
   enableFilterBar,
   onFilter,
 }: TreeActionBarProps) {
+  const { t } = useTranslation();
   // Input references
   const filterTypeRef = useRef<HTMLSelectElement | null>(null);
   const filterValueRef = useRef<HTMLInputElement | null>(null);
@@ -85,7 +87,7 @@ export default function TreeActionBar({
       }}>
         {
           (enableBackButton ?? true)
-          && <Tooltip title="Revenir en arrière">
+          && <Tooltip title={t("actionBack")}>
             <IconButton onClick={onBack}>
               <ArrowBackIosNewIcon color="primary" />
             </IconButton>
@@ -93,7 +95,7 @@ export default function TreeActionBar({
         }
         {
           enableCreateFile &&
-          <Tooltip title="Créer un fichier">
+          <Tooltip title={t("createFileLabel")}>
             <IconButton onClick={onAddFile}>
               <NoteAddIcon color="primary" />
             </IconButton>
@@ -101,7 +103,7 @@ export default function TreeActionBar({
         }
         {
           enableCreateDirectory &&
-          <Tooltip title="Créer un dossier">
+          <Tooltip title={t("createDirectoryLabel")}>
             <IconButton
               onClick={onAddDirectory}
             >
@@ -109,7 +111,7 @@ export default function TreeActionBar({
             </IconButton>
           </Tooltip>
         }
-        <Tooltip title="Rafraîchir">
+        <Tooltip title={t("actionRefresh")}>
           <IconButton onClick={onRefresh != null ? () => onRefresh() : () => 0}>
             <RefreshIcon color="primary" />
           </IconButton>
@@ -124,12 +126,12 @@ export default function TreeActionBar({
               inputRef={filterTypeRef}
               sx={{ minWidth: "100px", height: "100%", margin: "5px" }}
             >
-              <MenuItem value="title">Titre</MenuItem>
-              <MenuItem value="description">Description</MenuItem>
-              <MenuItem value="author">Auteur</MenuItem>
+              <MenuItem value="title">{t("detailTitle")}</MenuItem>
+              <MenuItem value="description">{t("detailDescription")}</MenuItem>
+              <MenuItem value="author">{t("detailAuthor")}</MenuItem>
             </Select>
             <TextField
-              label="Valeur"
+              label={t("actionValue")}
               variant="outlined"
               size="small"
               inputRef={filterValueRef}
@@ -141,7 +143,7 @@ export default function TreeActionBar({
               sx={{ minWidth: "80px", margin: "5px 5px" }}
               onClick={() => (onFilter ? onFilter(filterTypeRef.current?.value ?? "", filterValueRef.current?.value ?? "") : () => 0)}
             >
-              Filtrer
+              {t("actionFilter")}
             </Button>
           </>
         }

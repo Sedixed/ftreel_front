@@ -2,6 +2,7 @@ import UpdateUserRequestDTO from "@api/dto/request/user/UpdateUserRequestDTO";
 import UserResponseDTO from "@api/dto/response/authentication/UserResponseDTO";
 import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 export type UpdateUserFormProps = {
   currentUser: UserResponseDTO;
@@ -13,6 +14,7 @@ export default function UpdateUserForm({
   currentUser,
   onSubmit,
 }: UpdateUserFormProps) {
+  const { t } = useTranslation();
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const isAdminRef = useRef<HTMLInputElement | null>(null);
@@ -39,21 +41,21 @@ export default function UpdateUserForm({
 
   return (
     <>
-        <h2>Editer un utilisateur</h2>
-        <TextField label="Adresse mail" variant="outlined" inputRef={emailRef}
+        <h2>{t("updateFileUser")}</h2>
+        <TextField label={t("usersMail")} variant="outlined" inputRef={emailRef}
         defaultValue={currentUser.mail}  style={{ marginBottom: "20px"}}/>
-        <TextField type="password" label="Mot de passe" variant="outlined" inputRef={passwordRef} />
+        <TextField type="password" label={t("usersPassword")} variant="outlined" inputRef={passwordRef} />
         <FormControlLabel style={{
           marginLeft: "left"
         }} control={<Checkbox inputRef={isAdminRef} 
-          defaultChecked={roleNames.includes("ROLE_ADMIN")}/>} label="Administrateur ?" />
+          defaultChecked={roleNames.includes("ROLE_ADMIN")}/>} label={t("administrateur") + "?"} />
         <Button 
           variant="contained"
           type="submit" 
           onClick={handleSubmit}
           style={{ marginBottom: "10px"}}
         >
-          Editer
+          {t("updateFileLabel")}
         </Button>
     </>
   );

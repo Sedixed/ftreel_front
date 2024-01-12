@@ -15,12 +15,7 @@ import { AccessRouteLayout } from "layout/ApplicationLayout/AccessRouteLayout";
 import Users from "@page/user/Users";
 import Validation from "@page/validation/Validation";
 
-// TODO afficher le chemin courant? Docker? Gestion des users? Les bonus?
-// vérifier les traductions partout
-// problem après un upload de fichier, si on a déjà chargé la page validation,
-// le fichier non validé n'apparait pas de suite (faut regarder avec react query, querykey, invalidate)
-// ajouter la catégorie qui était suivi dans l'envoie de mail
-// changer l'affichage de détails qui est pas ouf
+// TODO afficher le chemin courant? Docker?
 
 function App() {
   // Defining all the application routes

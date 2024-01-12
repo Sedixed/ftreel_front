@@ -5,6 +5,7 @@ import APIEndpoint from "@api/endpoint/APIEndpoint";
 import useApiMutation from "@hook/api/useApiMutation";
 import { Box, Button, TextField } from "@mui/material";
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 export type UpdateDirectoryModalProps = {
   /**
@@ -36,6 +37,7 @@ export default function UpdateDirectoryModal({
   onError,
   onSuccess,
 }: UpdateDirectoryModalProps) {
+  const { t } = useTranslation();
   // Form values and references
   const nameRef = useRef<HTMLInputElement | null>(null);
 
@@ -67,11 +69,11 @@ export default function UpdateDirectoryModal({
 
   return (
     <>
-        <h2>Modifier le dossier</h2>
+        <h2>{t("updateFileDirectory")}</h2>
         <Box sx={{ margin: "10px 0" }}>
           <TextField inputRef={nameRef} placeholder="Nom" defaultValue={currentDirectory.name} sx={{ width: "100%" }} />
         </Box>
-        <Button variant="contained" onClick={onSubmit} style={{ marginBottom: "10px"}}>Modifier</Button>
+        <Button variant="contained" onClick={onSubmit} style={{ marginBottom: "10px"}}>{t("modify")}</Button>
     </>
   )
 }

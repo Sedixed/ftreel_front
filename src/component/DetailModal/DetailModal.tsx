@@ -29,9 +29,9 @@ export default function DetailModal({ file }: DetailModalProps) {
       { file.type == "directory" && (
         <>
           <h2>{t("titleDirectory")} : {file.name}</h2>
-          <Typography style={{ textAlign: 'left' }} variant="h5">{t("detailFollow")} : 
+          <Typography style={{ textAlign: 'left' }} variant="h5">{t("detailFollow")} : {" "}
           <span style={{ fontWeight: 'bold', color: theme.palette.primary.light }}> 
-            {file.followed ? t("yes") : t("non")}
+            {file.followed ? t("yes") : t("no")}
           </span></Typography>
         </>)
       }
@@ -39,23 +39,23 @@ export default function DetailModal({ file }: DetailModalProps) {
         file.type == "file" && (
         <>
           <h2>{t("titleFile")} : {file.name}</h2>
-          <Typography style={{ textAlign: 'left' }} variant="h5">{t("detailDescription")} : 
+          <Typography style={{ textAlign: 'left' }} variant="h5">{t("detailDescription")} : {" "}
           <span style={{ fontWeight: 'bold', color: theme.palette.primary.light }}> 
           {file.description}
           </span></Typography>
-          <Typography style={{ textAlign: 'left' }} variant="h5">{t("detailAuthor")} : 
+          <Typography style={{ textAlign: 'left' }} variant="h5">{t("detailAuthor")} : {" "}
           <span style={{ fontWeight: 'bold', color: theme.palette.primary.light }}> 
           {file.author}
           </span></Typography>
-          <Typography style={{ textAlign: 'left' }} variant="h5">{t("detailLiked")} : 
+          <Typography style={{ textAlign: 'left' }} variant="h5">{t("detailLiked")} : {" "}
           <span style={{ fontWeight: 'bold', color: theme.palette.primary.light }}> 
-          {file.liked ? t("yes") : t("non")}
+          {file.liked ? t("yes") : t("no")}
           </span></Typography>
-          <Typography style={{ textAlign: 'left' }} variant="h5">{t("detailNbLikes")} : 
+          <Typography style={{ textAlign: 'left' }} variant="h5">{t("detailNbLikes")} : {" "}
           <span style={{ fontWeight: 'bold', color: theme.palette.primary.light }}> 
           {file.nbLikes}
           </span></Typography>
-          <Typography style={{ textAlign: 'left' }} variant="h5">{t("detailExtension")} : 
+          <Typography style={{ textAlign: 'left' }} variant="h5">{t("detailExtension")} : {" "}
           <span style={{ fontWeight: 'bold', color: theme.palette.primary.light }}> 
           {file.extension}
           </span></Typography>

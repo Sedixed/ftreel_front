@@ -238,10 +238,6 @@ export default function FileTree({
 
   const getContextMenuByFile = (file: File) => {
     const downloadOption = { label: t("downloadLabel"), icon: <DownloadIcon /> };
-
-    // TODO Corriger le problèmes des boutons où il faut cliquer sur le TEXTE
-    // pour qu'ils fonctionnent
-
     const detailOption = {
       label: t("detailsLabel"),
       icon: <InfoIcon />,

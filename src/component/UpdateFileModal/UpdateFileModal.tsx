@@ -5,6 +5,7 @@ import APIEndpoint from "@api/endpoint/APIEndpoint";
 import useApiMutation from "@hook/api/useApiMutation";
 import { Box, Button, TextField } from "@mui/material";
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 export type UpdateFileModalProps = {
   /**
@@ -36,6 +37,7 @@ export default function CreateFileModal({
   onError,
   onSuccess,
 }: UpdateFileModalProps) {
+  const { t } = useTranslation();
   // Form values and references
   const titleRef = useRef<HTMLInputElement | null>(null);
   const descriptionRef = useRef<HTMLInputElement | null>(null);
@@ -71,7 +73,7 @@ export default function CreateFileModal({
 
   return (
     <>
-        <h2>Modifier un fichier</h2>
+        <h2>{t("updateFileFile")}</h2>
         <Box sx={{ margin: "10px 0" }}>
           <TextField inputRef={titleRef} placeholder="Nom" defaultValue={currentFile.title} sx={{ width: "100%" }} />
         </Box>
@@ -85,7 +87,7 @@ export default function CreateFileModal({
             defaultValue={currentFile.description}
           />
         </Box>
-        <Button variant="contained" onClick={onSubmit} style={{ marginBottom: "10px"}}>Modifier</Button>
+        <Button variant="contained" onClick={onSubmit} style={{ marginBottom: "10px"}}>{t("modify")}</Button>
     </>
   )
 }

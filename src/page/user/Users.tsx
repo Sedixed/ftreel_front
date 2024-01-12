@@ -21,8 +21,10 @@ import UserResponseDTO from "@api/dto/response/authentication/UserResponseDTO";
 import CreateUserForm from "@component/CreateUserForm/CreateUserForm";
 import UpdateUserAdminForm from "@component/UpdateUserForm/UpdateUserForm";
 import UpdateUserRequestDTO from "@api/dto/request/user/UpdateUserRequestDTO";
+import { useTranslation } from "react-i18next";
 
 export default function Users() {
+  const { t } = useTranslation();
   // Setup the fetch error snackbar
   const { snackbar: fetchErrorSnackbar, show: showFetchError } = useSnackbar(
     "Impossible de récupérer les utilisateurs.",
@@ -40,7 +42,7 @@ export default function Users() {
   const tableColumns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Id",
+      headerName: t("usersId"),
       flex: 1,
       type: "number",
       align: "center",
@@ -50,7 +52,7 @@ export default function Users() {
     },
     {
       field: "mail",
-      headerName: "Adresse mail",
+      headerName: t("usersMail"),
       flex: 1,
       type: "string",
       align: "center",
@@ -60,7 +62,7 @@ export default function Users() {
     },
     {
       field: "roles",
-      headerName: "Roles",
+      headerName: t("usersRoles"),
       flex: 1,
       type: "string",
       align: "center",
@@ -178,7 +180,7 @@ export default function Users() {
   return (
     <>
       <Box sx={{ paddingLeft: "5%" }}>
-        <h1>Utilisateurs</h1>
+        <h1>{t("usersLabel")}</h1>
       </Box>
       <Box
         sx={{
@@ -193,7 +195,7 @@ export default function Users() {
           sx={{ margin: "10px 0" }}
           onClick={() => setOpenUserCreate(true)}
         >
-          Créer un utilisateur
+          {t("createUserLabel")}
         </Button>
       </Box>
       <CenterDiv

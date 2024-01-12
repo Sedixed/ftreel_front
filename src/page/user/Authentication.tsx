@@ -27,6 +27,13 @@ export default function Authentication() {
     const email = emailRef.current?.value ?? "";
     const password = passwordRef.current?.value ?? "";
     const roles = ["ROLE_USER"];
+
+    // Email syntax validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setErrorMessage("Invalid email address");
+      return;
+    }
  
     // Call API
     mutate(formMode === 'login' ? 
