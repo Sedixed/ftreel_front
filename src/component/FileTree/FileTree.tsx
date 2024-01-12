@@ -196,6 +196,11 @@ export type File = {
    * Indicates file's likes count.
    */
   nbLikes?: number;
+
+  /**
+   * Indicates if the file has been validated or not (default: false).
+   */
+  isValidated?: boolean;
 };
 
 /**
@@ -341,7 +346,8 @@ export default function FileTree({
                   })
             }
             sx={{
-              cursor: file.type == "directory" ? "pointer" : "auto"
+              cursor: file.type == "directory" ? "pointer" : "auto",
+              opacity: file.type == "file" && !file.isValidated ? 0.5 : 1,
             }}
           />
         ))}

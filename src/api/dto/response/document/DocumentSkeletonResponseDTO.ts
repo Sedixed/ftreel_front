@@ -19,6 +19,7 @@ export default class DocumentSkeletonResponseDTO {
     public readonly path: string,
     public readonly liked: boolean,
     public readonly nbLikes: number,
+    public readonly isValidated: boolean,
   ) {}
 
 }

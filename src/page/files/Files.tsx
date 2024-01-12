@@ -66,6 +66,7 @@ export default function Files() {
       path: "",
       liked: false,
       nbLikes: 0,
+      isValidated: false,
     });
 
   // Setup selected directory for update
@@ -130,6 +131,7 @@ export default function Files() {
           type: "file",
           liked: file.liked,
           nbLikes: file.nbLikes,
+          isValidated: file.isValidated,
         }
       }))
   }
@@ -303,6 +305,7 @@ export default function Files() {
               id: file.id, title: file.name, description: file.description || "",
               extension: file.extension || "", author: file.author || "", path: file.path,
               liked: file.liked || false, nbLikes: file.nbLikes || 0,
+              isValidated: file.isValidated || false,
             });
           }}
           onCreateDirectory={() => setCreateDirectoryModalOpen(true)}
