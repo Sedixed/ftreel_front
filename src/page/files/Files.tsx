@@ -27,7 +27,6 @@ import { Breadcrumbs } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 
 // TODO :
-// - Ajouter chemin courant
 // - Snackbar (gérer erreurs et succès)
 
 export default function Files() {

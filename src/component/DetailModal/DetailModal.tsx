@@ -1,5 +1,5 @@
 import { File } from "@component/FileTree/FileTree"
-import { Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next"
 
 /**
@@ -26,6 +26,7 @@ export default function DetailModal({ file }: DetailModalProps) {
   
   return (    
     <>
+      <Box sx={{ margin: "15px" }}>
       { file.type == "directory" && (
         <>
           <h2>{t("titleDirectory")} : {file.name}</h2>
@@ -61,6 +62,11 @@ export default function DetailModal({ file }: DetailModalProps) {
           </span></Typography>
         </>)
       }
+      <Typography style={{ textAlign: 'left' }} variant="h5">{t("detailPath")} : {" "}
+        <span style={{ fontWeight: 'bold', color: theme.palette.primary.light }}> 
+          {file.path}
+      </span></Typography>
+      </Box>
     </>
   )
 }
