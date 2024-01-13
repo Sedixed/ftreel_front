@@ -8,5 +8,6 @@ export enum ApplicationRoute {
   FOLLOWED = "/followed",
   LOGOUT = "/logout",
   USERS = "/users",
+  MAIL = "/mail",
   VALIDATION = "/validation",
 }

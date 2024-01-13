@@ -12,6 +12,8 @@ import GetCategoryWithPathRequestDTO from "@api/dto/request/category/GetCategory
 import FollowedCategoryResponseDTO from "@api/dto/response/category/FollowedCategoryResponseDTO";
 import CreateUserRequestDTO from "@api/dto/request/user/CreateUserRequestDTO";
 import UpdateUserRequestDTO from "@api/dto/request/user/UpdateUserRequestDTO";
+import GetMailTemplateResponseDTO from "@api/dto/response/mail/GetMailTemplateResponse";
+import SetMailTemplateRequestDTO from "@api/dto/request/mail/SetMailTemplateRequestDTO";
 
 /**
  * Class containing the API endpoints metadata (URI, request type...). This class also contains all the existing API 
@@ -47,6 +49,8 @@ export default class APIEndpoint<T, U> {
   public static readonly VALIDATE_DOCUMENT = new APIEndpoint("/Document/ValidateDocument/{id}", "POST", null, null);
   public static readonly LIKE_DOCUMENT = new APIEndpoint("/Document/Like/{id}", "POST", null, null);
   public static readonly UNLIKE_DOCUMENT = new APIEndpoint("/Document/Unlike/{id}", "POST", null, null);
+  public static readonly GET_MAIL_TEMPLATE = new APIEndpoint("/Document/GetMailTemplate", "GET", null, GetMailTemplateResponseDTO);
+  public static readonly SET_MAIL_TEMPLATE = new APIEndpoint("/Document/SetMailTemplate", "POST", SetMailTemplateRequestDTO, null);
 
   public static readonly GET_USER = new APIEndpoint("/User/GetUser/{id}", "POST", AuthenticationRequestDTO, UserResponseDTO);
   public static readonly GET_ALL_USERS = new APIEndpoint("/User/GetAllUsers", "GET", null, Array<UserResponseDTO>);

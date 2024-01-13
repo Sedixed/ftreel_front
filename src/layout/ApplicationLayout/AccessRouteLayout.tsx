@@ -23,6 +23,8 @@ export function AccessRouteLayout() {
         return isLoggedIn && containsAdmin ? <Outlet /> : <Navigate to={ApplicationRoute.HOME} />;
       case ApplicationRoute.VALIDATION:
         return isLoggedIn && containsAdmin ? <Outlet /> : <Navigate to={ApplicationRoute.HOME} />;
+      case ApplicationRoute.MAIL:
+        return isLoggedIn && containsAdmin ? <Outlet /> : <Navigate to={ApplicationRoute.HOME} />;
       case ApplicationRoute.FOLLOWED:
         return isLoggedIn ? <Outlet /> : <Navigate to={ApplicationRoute.HOME} />;
       case ApplicationRoute.LOGOUT:

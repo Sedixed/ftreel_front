@@ -75,7 +75,7 @@ export default function CreateFileModal({
     <>
         <h2>{t("updateFileFile")}</h2>
         <Box sx={{ margin: "10px 0" }}>
-          <TextField inputRef={titleRef} placeholder="Nom" defaultValue={currentFile.title} sx={{ width: "100%" }} />
+          <TextField inputRef={titleRef} label={t("name")} defaultValue={currentFile.title} sx={{ width: "100%" }} />
         </Box>
         <Box sx={{ margin: "10px 0" }}>
           <TextField
@@ -83,7 +83,7 @@ export default function CreateFileModal({
             multiline
             maxRows={4}
             style={{ width: "100%", resize: "none" }} 
-            placeholder="Description"
+            label={t("detailDescription")}
             defaultValue={currentFile.description}
           />
         </Box>

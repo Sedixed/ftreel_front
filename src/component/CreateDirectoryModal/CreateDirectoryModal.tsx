@@ -4,6 +4,7 @@ import APIEndpoint from "@api/endpoint/APIEndpoint";
 import useApiMutation from "@hook/api/useApiMutation";
 import { Box, Button, TextField } from "@mui/material";
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 export type CreateDirectoryModalProps = {
   /**
@@ -29,6 +30,7 @@ export default function CreateDirectoryModal({
   onError,
   onSuccess,
 }: CreateDirectoryModalProps) {
+  const { t } = useTranslation();
   // Form values and references
   const nameRef = useRef<HTMLInputElement | null>(null);
 
@@ -57,11 +59,11 @@ export default function CreateDirectoryModal({
 
   return (
     <>
-        <h2>Créer un dossier</h2>
+        <h2>{t("createDirectoryLabel")}</h2>
         <Box sx={{ margin: "10px 0" }}>
-          <TextField inputRef={nameRef} placeholder="Nom du dossier" sx={{ width: "100%" }} />
+          <TextField inputRef={nameRef} label={t("name")} sx={{ width: "100%" }} />
         </Box>
-        <Button variant="contained" onClick={onSubmit} style={{ marginBottom: "10px"}}>Créer</Button>
+        <Button variant="contained" onClick={onSubmit} style={{ marginBottom: "10px"}}>{t("create")}</Button>
     </>
   )
 }

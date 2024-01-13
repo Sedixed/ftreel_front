@@ -5,6 +5,7 @@ import useApiMutation from "@hook/api/useApiMutation";
 import { Box, Button, TextField } from "@mui/material";
 import { MuiFileInput } from "mui-file-input";
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export type CreateFileModalProps = {
   /**
@@ -30,6 +31,7 @@ export default function CreateFileModal({
   onError,
   onSuccess,
 }: CreateFileModalProps) {
+  const { t } = useTranslation();
   // Form values and references
   const titleRef = useRef<HTMLInputElement | null>(null);
   const descriptionRef = useRef<HTMLInputElement | null>(null);
@@ -78,9 +80,9 @@ export default function CreateFileModal({
 
   return (
     <>
-        <h2>Créer un fichier</h2>
+        <h2>{t("createFileLabel")}</h2>
         <Box sx={{ margin: "10px 0" }}>
-          <TextField inputRef={titleRef} placeholder="Nom du fichier" sx={{ width: "100%" }} />
+          <TextField inputRef={titleRef} label={t("fileTitleLabel")} sx={{ width: "100%" }} />
         </Box>
         <Box sx={{ margin: "10px 0" }}>
           <TextField
@@ -88,18 +90,18 @@ export default function CreateFileModal({
             multiline
             maxRows={4}
             style={{ width: "100%", resize: "none" }} 
-            placeholder="Description"
+            label={t("detailDescription")}
           />
         </Box>
         <Box sx={{ margin: "10px 0" }}>
           <MuiFileInput 
-            label="Choisir un fichier" 
+            label={t("chooseFileLabel")}
             value={file} 
             onChange={handleFileChange}
             sx={{ width: "100%" }} 
             />
         </Box>
-        <Button variant="contained" onClick={onSubmit} style={{ marginBottom: "10px"}}>Créer</Button>
+        <Button variant="contained" onClick={onSubmit} style={{ marginBottom: "10px"}}>{t("create")}</Button>
     </>
   )
 }

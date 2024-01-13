@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, MenuItem, Select, TextField, Tooltip } from "@mui/material";
+import { Box, Button, IconButton, MenuItem, Select, TextField, Tooltip, Typography, useTheme } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
@@ -51,6 +51,11 @@ export type TreeActionBarProps = {
   enableFilterBar?: boolean;
 
   /**
+   * Enables the information typo (default: false).
+   */
+  enableInfos?: boolean;
+
+  /**
    * Callback called when the filter button is clicked
    * 
    * @param filterType  The type of the filter to apply
@@ -71,12 +76,14 @@ export default function TreeActionBar({
   enableCreateDirectory,
   enableBackButton,
   enableFilterBar,
+  enableInfos,
   onFilter,
 }: TreeActionBarProps) {
   const { t } = useTranslation();
   // Input references
   const filterTypeRef = useRef<HTMLSelectElement | null>(null);
   const filterValueRef = useRef<HTMLInputElement | null>(null);
+  const theme = useTheme();
 
   return (
     <>
@@ -148,7 +155,30 @@ export default function TreeActionBar({
           </>
         }
 
-        
+        {
+          (enableInfos ?? false)
+          && <>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center', 
+              gap: 2, 
+              margin: '8px', 
+              backgroundColor: theme.palette.primary.light,
+              padding: '8px',
+              borderRadius: '4px', 
+              color: "#FFF6FF",
+              flexWrap: 'wrap',
+            }}
+          >
+            <Typography>
+              {t("write")} {'{Title}, {Author}, {Description}, {Url} ou {Category}\n'}
+              {t("actionInfos")}
+            </Typography>
+          </Box>
+        </>
+      }
       </Box>
     </>
   );

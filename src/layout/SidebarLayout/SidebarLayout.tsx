@@ -18,6 +18,7 @@ import ValidationIcon from "@mui/icons-material/DoneOutline";
 import PeopleIcon from '@mui/icons-material/People';
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import LogoutIcon from "@mui/icons-material/Logout";
+import MailIcon from "@mui/icons-material/Mail";
 import { ReactNode, useMemo } from "react";
 import { ApplicationRoute } from "@constant/ApplicationRoute/ApplicationRoute";
 import { useTranslation } from "react-i18next";
@@ -92,6 +93,12 @@ export default function SidebarLayout() {
               href: ApplicationRoute.VALIDATION,
               icon: <ValidationIcon />,
               label: t('sidebarValidation'),
+            },
+            {
+              key: "mail",
+              href: ApplicationRoute.MAIL,
+              icon: <MailIcon />,
+              label: t('sidebarMail'),
             },
             {
               key: "users",

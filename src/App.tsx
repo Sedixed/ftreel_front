@@ -14,6 +14,7 @@ import Logout from "@page/user/Logout";
 import { AccessRouteLayout } from "layout/ApplicationLayout/AccessRouteLayout";
 import Users from "@page/user/Users";
 import Validation from "@page/validation/Validation";
+import Mail from "@page/mail/Mail";
 
 function App() {
   // Defining all the application routes
@@ -52,6 +53,10 @@ function App() {
             {
               path: ApplicationRoute.USERS,
               element: <Users />
+            },
+            {
+              path: ApplicationRoute.MAIL,
+              element: <Mail />
             },
             {
               path: ApplicationRoute.VALIDATION,
