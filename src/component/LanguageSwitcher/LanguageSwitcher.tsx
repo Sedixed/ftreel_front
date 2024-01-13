@@ -8,7 +8,7 @@ function LanguageSwitcher(){
 
   const styles = {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     position: "fixed",
     top: "0",
     right: "0",

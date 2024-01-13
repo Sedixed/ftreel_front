@@ -1,6 +1,6 @@
 import useApi from '@hook/api/useApi';
 import APIEndpoint from '@api/endpoint/APIEndpoint';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import useSnackbar from '@hook/snackbar/useSnackbar';
 import useApiMutation from '@hook/api/useApiMutation';
